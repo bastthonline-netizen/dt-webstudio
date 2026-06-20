@@ -1,0 +1,443 @@
+---
+// Cinematischer Dark-Showcase für DT Webstudio.
+// Eigenständige Seite (eigenes dunkles Shell), nutzt nur Tokens + Fonts aus global.css.
+import "../styles/global.css";
+import { u } from "../lib/url";
+import { site } from "../data/site";
+const title = `Showcase · ${site.name}`;
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="DT Webstudio Showcase – moderne Websites mit echtem 3D, cinematischer Bewegung und kompromisslosem Design."
+    />
+    <link rel="icon" type="image/svg+xml" href={u("/favicon.svg")} />
+    <link rel="stylesheet" href={u("/fonts/fonts.css")} />
+    <meta name="theme-color" content="#0b0b0d" />
+    <title>{title}</title>
+  </head>
+
+  <body class="show-body">
+    <a href="#main" class="skip">Zum Inhalt springen</a>
+
+    <!-- Nav -->
+    <header class="show-nav">
+      <a href={u("/showcase")} class="show-logo" aria-label="DT Webstudio Showcase">
+        <span class="font-medium">DT</span><span class="show-logo-em">Webstudio</span>
+      </a>
+      <a href={u("/")} class="show-back">Zur Hauptseite →</a>
+    </header>
+
+    <main id="main">
+      <!-- ===== HERO ===== -->
+      <section class="hero">
+        <!-- 3D-Showpiece (austauschbarer Visual-Slot) -->
+        <canvas
+          id="show-canvas"
+          role="img"
+          aria-label="Interaktives, sich drehendes 3D-Objekt als visuelles Markenzeichen"
+        ></canvas>
+        <div id="show-fallback" aria-hidden="true"></div>
+
+        <div class="hero-inner">
+          <span class="hero-eyebrow" data-anim>Webstudio · Inntal &amp; Rosenheim</span>
+          <h1 class="hero-title">
+            <span class="line" data-anim>Wir bauen die</span>
+            <span class="line" data-anim><em>Zukunft</em> des Webs.</span>
+          </h1>
+          <p class="hero-sub" data-anim>
+            Websites mit echtem 3D, cinematischer Bewegung und einem Design,
+            das man nicht mehr vergisst.
+          </p>
+          <div class="hero-cta" data-anim>
+            <a href={u("/#kontakt")} class="btn-show btn-show-primary">Projekt starten</a>
+            <a href="#was" class="btn-show btn-show-ghost">Was wir bauen</a>
+          </div>
+        </div>
+
+        <div class="scroll-hint" aria-hidden="true"></div>
+      </section>
+
+      <!-- ===== STATEMENT (gepinnt, Wort-für-Wort) ===== -->
+      <section class="statement" id="statement">
+        <p class="statement-text">
+          <span class="w">Schön</span> <span class="w">reicht</span> <span class="w">nicht.</span>
+          <span class="w">Eine</span> <span class="w">Website</span> <span class="w">muss</span>
+          <span class="w em">fühlbar</span> <span class="w">sein</span> <span class="w">–</span>
+          <span class="w">schnell,</span> <span class="w">lebendig,</span> <span class="w">unverwechselbar.</span>
+        </p>
+      </section>
+
+      <!-- ===== WAS WIR BAUEN ===== -->
+      <section class="feature" id="was">
+        <div class="feature-head">
+          <span class="f-eyebrow">Was wir bauen</span>
+          <h2 class="f-title">Kein Baukasten.<br /><em>Maßarbeit.</em></h2>
+        </div>
+        <div class="feature-grid">
+          <article class="f-card" data-reveal>
+            <h3>Echtes 3D &amp; WebGL</h3>
+            <p>Interaktive Szenen, die auf Maus und Scroll reagieren – live im Browser gerendert, kein Video-Trick.</p>
+          </article>
+          <article class="f-card" data-reveal>
+            <h3>Cinematische Bewegung</h3>
+            <p>Scroll-Choreografie mit GSAP: Pinning, Parallax, kinetische Typo. Jede Bewegung hat einen Grund.</p>
+          </article>
+          <article class="f-card" data-reveal>
+            <h3>Tempo trotz Wow</h3>
+            <p>Hardware-beschleunigt, lazy geladen, mobil gedacht. Beeindruckend – und trotzdem blitzschnell.</p>
+          </article>
+          <article class="f-card" data-reveal>
+            <h3>Design mit Haltung</h3>
+            <p>Große Typo, mutige Kontraste, klare Marke. Kein Template-Look, sondern ein Auftritt mit Charakter.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== CTA ===== -->
+      <section class="show-cta">
+        <h2 class="show-cta-title">Bereit für einen Auftritt,<br />der <em>auffällt</em>?</h2>
+        <a href={u("/#kontakt")} class="btn-show btn-show-primary btn-lg">Projekt starten</a>
+        <p class="show-cta-foot">{site.region}</p>
+      </section>
+    </main>
+
+    <style is:global>
+      .show-body {
+        background: #0b0b0d;
+        color: #ece8e1;
+        overflow-x: hidden;
+      }
+      .skip {
+        position: absolute; left: -999px; top: 0;
+      }
+      .skip:focus {
+        left: 1rem; top: 1rem; z-index: 100;
+        background: #ece8e1; color: #0b0b0d; padding: 0.5rem 1rem; border-radius: 8px;
+      }
+
+      .show-nav {
+        position: fixed; inset-inline: 0; top: 0; z-index: 50;
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 1.25rem clamp(1.5rem, 4vw, 3rem);
+      }
+      .show-logo {
+        font-family: var(--font-display); font-size: 1.4rem; letter-spacing: -0.02em;
+        display: inline-flex; gap: 0.15em; color: #ece8e1;
+      }
+      .show-logo-em { font-style: italic; color: var(--color-accent); }
+      .show-back {
+        font-size: 0.9rem; color: rgba(236, 232, 225, 0.6);
+        transition: color 0.3s var(--ease-out-soft);
+      }
+      .show-back:hover { color: #ece8e1; }
+
+      /* ---- HERO ---- */
+      .hero {
+        position: relative; min-height: 100dvh;
+        display: flex; align-items: center;
+        padding: 0 clamp(1.5rem, 5vw, 5rem);
+        overflow: hidden;
+      }
+      #show-canvas, #show-fallback {
+        position: absolute; inset: 0; width: 100%; height: 100%;
+        z-index: 0;
+      }
+      #show-fallback {
+        display: none;
+        background:
+          radial-gradient(60% 60% at 70% 40%, rgba(224, 100, 64, 0.4), transparent 70%),
+          radial-gradient(50% 50% at 40% 70%, rgba(120, 130, 160, 0.25), transparent 70%);
+      }
+      .hero::after {
+        /* Lesbarkeits-Verlauf links */
+        content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+        background: linear-gradient(90deg, rgba(11,11,13,0.92) 0%, rgba(11,11,13,0.5) 38%, rgba(11,11,13,0) 62%);
+      }
+      .hero-inner { position: relative; z-index: 2; max-width: 640px; }
+      .hero-eyebrow {
+        display: inline-block; font-size: 0.74rem; font-weight: 600;
+        letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-accent);
+        margin-bottom: 1.5rem;
+      }
+      .hero-title {
+        font-family: var(--font-display); font-weight: 560;
+        font-size: clamp(2.8rem, 8vw, 6rem); line-height: 0.98; letter-spacing: -0.03em;
+        color: #f4f1ec; margin: 0;
+      }
+      .hero-title .line { display: block; }
+      .hero-title em { font-style: italic; color: var(--color-accent); }
+      .hero-sub {
+        margin-top: 1.75rem; max-width: 30rem; font-size: 1.15rem; line-height: 1.6;
+        color: rgba(236, 232, 225, 0.72);
+      }
+      .hero-cta { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 0.9rem; }
+
+      .scroll-hint {
+        position: absolute; bottom: 2rem; left: 50%; z-index: 2;
+        width: 1px; height: 56px; transform: translateX(-50%);
+        background: linear-gradient(rgba(236,232,225,0.5), transparent);
+        animation: hint 2.4s var(--ease-out-soft) infinite;
+      }
+      @keyframes hint {
+        0% { opacity: 0; transform: translate(-50%, -10px) scaleY(0.4); transform-origin: top; }
+        40% { opacity: 1; }
+        100% { opacity: 0; transform: translate(-50%, 18px) scaleY(1); transform-origin: top; }
+      }
+
+      /* ---- BUTTONS ---- */
+      .btn-show {
+        display: inline-flex; align-items: center; justify-content: center;
+        padding: 0.85rem 1.6rem; border-radius: var(--radius-btn);
+        font-weight: 500; font-size: 1rem; line-height: 1; cursor: pointer;
+        transition: transform 0.3s var(--ease-out-soft), background-color 0.3s, box-shadow 0.3s, border-color 0.3s;
+      }
+      .btn-show:active { transform: translateY(1px) scale(0.99); }
+      .btn-show-primary {
+        background: var(--color-accent); color: #fff;
+        box-shadow: 0 8px 30px -8px rgba(224, 100, 64, 0.6);
+      }
+      .btn-show-primary:hover { background: #d3522e; transform: translateY(-2px); box-shadow: 0 14px 44px -10px rgba(224, 100, 64, 0.7); }
+      .btn-show-ghost { color: #ece8e1; border: 1px solid rgba(236, 232, 225, 0.25); }
+      .btn-show-ghost:hover { border-color: #ece8e1; transform: translateY(-2px); }
+      .btn-lg { padding: 1.1rem 2.2rem; font-size: 1.1rem; }
+
+      /* ---- STATEMENT ---- */
+      .statement {
+        min-height: 100dvh; display: flex; align-items: center;
+        padding: 0 clamp(1.5rem, 6vw, 8rem);
+      }
+      .statement-text {
+        font-family: var(--font-display); font-weight: 500;
+        font-size: clamp(2rem, 5.5vw, 4.25rem); line-height: 1.12; letter-spacing: -0.02em;
+        max-width: 18ch;
+      }
+      .statement-text .w { opacity: 0.16; transition: opacity 0.2s linear; }
+      .statement-text .w.em { color: var(--color-accent); font-style: italic; }
+
+      /* ---- FEATURE ---- */
+      .feature { padding: clamp(6rem, 14vh, 12rem) clamp(1.5rem, 5vw, 5rem); max-width: 1240px; margin: 0 auto; }
+      .feature-head { max-width: 40rem; }
+      .f-eyebrow {
+        font-size: 0.74rem; font-weight: 600; letter-spacing: 0.18em;
+        text-transform: uppercase; color: var(--color-accent);
+      }
+      .f-title {
+        font-family: var(--font-display); font-weight: 560;
+        font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1.02; letter-spacing: -0.025em;
+        margin-top: 1rem; color: #f4f1ec;
+      }
+      .f-title em { font-style: italic; color: var(--color-accent); }
+      .feature-grid {
+        margin-top: 4rem; display: grid; gap: 1px;
+        background: rgba(236, 232, 225, 0.1);
+        border: 1px solid rgba(236, 232, 225, 0.1); border-radius: var(--radius-card);
+        overflow: hidden;
+      }
+      @media (min-width: 768px) { .feature-grid { grid-template-columns: 1fr 1fr; } }
+      .f-card {
+        background: #0e0e11; padding: clamp(2rem, 4vw, 3rem);
+        transition: background-color 0.4s var(--ease-out-soft);
+      }
+      .f-card:hover { background: #141418; }
+      .f-num {
+        font-family: var(--font-display); font-size: 0.95rem; color: var(--color-accent);
+      }
+      .f-card h3 { font-size: 1.5rem; margin-top: 1rem; color: #f4f1ec; }
+      .f-card p { margin-top: 0.75rem; color: rgba(236, 232, 225, 0.62); line-height: 1.6; max-width: 34ch; }
+
+      /* ---- CTA ---- */
+      .show-cta {
+        text-align: center; padding: clamp(7rem, 18vh, 14rem) 1.5rem;
+        display: flex; flex-direction: column; align-items: center; gap: 2rem;
+      }
+      .show-cta-title {
+        font-family: var(--font-display); font-weight: 560;
+        font-size: clamp(2.4rem, 7vw, 5rem); line-height: 1.02; letter-spacing: -0.03em; color: #f4f1ec;
+      }
+      .show-cta-title em { font-style: italic; color: var(--color-accent); }
+      .show-cta-foot { color: rgba(236, 232, 225, 0.45); font-size: 0.95rem; }
+
+      [data-anim] { opacity: 0; }
+
+      @media (prefers-reduced-motion: reduce) {
+        [data-anim], [data-reveal] { opacity: 1 !important; transform: none !important; }
+        .statement-text .w { opacity: 1 !important; }
+        .scroll-hint { animation: none; }
+      }
+    </style>
+
+    <script>
+      import * as THREE from "three";
+      import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
+      import { gsap } from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+      gsap.registerPlugin(ScrollTrigger);
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      /* ---------------- 3D Hero ---------------- */
+      const canvas = document.getElementById("show-canvas") as HTMLCanvasElement | null;
+      const fallback = document.getElementById("show-fallback");
+
+      function showFallback() {
+        canvas?.style.setProperty("display", "none");
+        fallback?.style.setProperty("display", "block");
+      }
+
+      if (canvas) {
+        let renderer: THREE.WebGLRenderer;
+        try {
+          renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        } catch {
+          showFallback();
+        }
+        // @ts-ignore – renderer ist gesetzt, wenn WebGL verfügbar
+        if (renderer!) {
+          renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+          renderer.toneMapping = THREE.ACESFilmicToneMapping;
+          renderer.toneMappingExposure = 1.1;
+
+          const scene = new THREE.Scene();
+          const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+          camera.position.set(0, 0, 7);
+
+          // Studio-Reflexionen für premium Materialwirkung
+          const pmrem = new THREE.PMREMGenerator(renderer);
+          scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+          // Organisch verformter, metallisch-reflektierender Körper
+          const geo = new THREE.IcosahedronGeometry(2, 6);
+          const basePos = geo.attributes.position.clone();
+          const v = new THREE.Vector3();
+          function displace(t: number) {
+            const p = geo.attributes.position as THREE.BufferAttribute;
+            for (let i = 0; i < p.count; i++) {
+              v.fromBufferAttribute(basePos, i);
+              const n = v.clone().normalize();
+              const d =
+                0.22 * Math.sin(n.x * 2.4 + t) +
+                0.16 * Math.cos(n.y * 3.1 - t * 0.8) +
+                0.12 * Math.sin(n.z * 4.0 + t * 1.3);
+              v.addScaledVector(n, d);
+              p.setXYZ(i, v.x, v.y, v.z);
+            }
+            p.needsUpdate = true;
+            geo.computeVertexNormals();
+          }
+          displace(0);
+
+          const mat = new THREE.MeshStandardMaterial({
+            color: new THREE.Color("#c8c2b8"),
+            metalness: 1.0,
+            roughness: 0.22,
+          });
+          const mesh = new THREE.Mesh(geo, mat);
+          const group = new THREE.Group();
+          group.add(mesh);
+          group.position.x = 1.6;
+          scene.add(group);
+
+          // Akzent-Lichter
+          const a1 = new THREE.PointLight(0xe06440, 60, 30);
+          a1.position.set(4, 3, 4);
+          scene.add(a1);
+          const a2 = new THREE.PointLight(0x6a7bb5, 30, 30);
+          a2.position.set(-5, -2, 2);
+          scene.add(a2);
+
+          // Partikel-Staub
+          const count = 900;
+          const pos = new Float32Array(count * 3);
+          for (let i = 0; i < count * 3; i++) pos[i] = (Math.random() - 0.5) * 22;
+          const pg = new THREE.BufferGeometry();
+          pg.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+          const points = new THREE.Points(
+            pg,
+            new THREE.PointsMaterial({ color: 0xece8e1, size: 0.018, transparent: true, opacity: 0.5 }),
+          );
+          scene.add(points);
+
+          function resize() {
+            if (!canvas) return;
+            const w = canvas.clientWidth || window.innerWidth;
+            const h = canvas.clientHeight || window.innerHeight;
+            renderer.setSize(w, h, false);
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+          }
+          resize();
+          window.addEventListener("resize", resize, { passive: true });
+
+          const target = { x: 0, y: 0 };
+          if (!reduce) {
+            window.addEventListener("pointermove", (e) => {
+              target.x = (e.clientX / window.innerWidth - 0.5) * 0.6;
+              target.y = (e.clientY / window.innerHeight - 0.5) * 0.6;
+            }, { passive: true });
+          }
+
+          const clock = new THREE.Clock();
+          let running = true;
+          function frame() {
+            if (!running) return;
+            const t = clock.getElapsedTime();
+            if (!reduce) {
+              displace(t * 0.5);
+              group.rotation.y += (target.x - group.rotation.y) * 0.05 + 0.0015;
+              group.rotation.x += (target.y - group.rotation.x) * 0.05;
+              points.rotation.y = t * 0.02;
+            }
+            renderer.render(scene, camera);
+            if (!reduce) requestAnimationFrame(frame);
+          }
+          frame();
+
+          if (!reduce) {
+            const io = new IntersectionObserver((es) => {
+              es.forEach((e) => { running = e.isIntersecting; if (running) frame(); });
+            });
+            io.observe(canvas);
+          }
+        }
+      }
+
+      /* ---------------- GSAP ---------------- */
+      if (reduce) {
+        document.querySelectorAll<HTMLElement>("[data-anim]").forEach((el) => (el.style.opacity = "1"));
+      } else {
+        // Hero-Einstieg
+        gsap.set("[data-anim]", { y: 24, opacity: 0 });
+        gsap.to("[data-anim]", {
+          opacity: 1, y: 0, duration: 1, ease: "power3.out", stagger: 0.12, delay: 0.2,
+        });
+
+        // Statement: Wörter füllen sich beim Scrollen (Scrub)
+        const words = gsap.utils.toArray<HTMLElement>(".statement-text .w");
+        gsap.to(words, {
+          opacity: 1, stagger: 0.4, ease: "none",
+          scrollTrigger: {
+            trigger: "#statement",
+            start: "top top",
+            end: "+=120%",
+            pin: true,
+            scrub: 0.6,
+          },
+        });
+
+        // Feature-Karten gestaffelt einblenden
+        gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
+          gsap.from(el, {
+            opacity: 0, y: 40, duration: 0.8, ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 85%" },
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

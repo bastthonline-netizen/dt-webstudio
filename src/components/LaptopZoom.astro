@@ -1,0 +1,161 @@
+---
+// Scroll-in-den-Bildschirm-Intro: Laptop auf Weiß, Headline darüber,
+// beim Scrollen zoomt der Bildschirm bis auf Vollbild ("man ist im Screen").
+// Laptop = austauschbarer Slot: Platzhalter-CSS jetzt, später Foto via .laptop-photo.
+import { u } from "../lib/url";
+import { primaryCta } from "../data/site";
+---
+
+<section class="zoom-stage" aria-label="Intro">
+  <div class="zoom-pin">
+    <div class="zoom-white"></div>
+
+    <h2 class="zoom-headline">
+      <span class="zoom-eyebrow">DT Webstudio</span>
+      <span class="zoom-head-line">Schau rein –<br /><em>scroll</em> in deine neue Website.</span>
+    </h2>
+
+    <!-- Gerät (skaliert als Ganzes) -->
+    <div class="device">
+      <div class="device-screen">
+        <!-- HIER kommt später das Laptop-Foto als Rahmen: <img class="laptop-photo" …/> -->
+        <div class="screen-content">
+          <div class="inside-hero">
+            <span class="eyebrow">Webstudio · Inntal &amp; Rosenheim</span>
+            <h1 class="inside-title">
+              Websites, die deinen <span class="accent-em">Betrieb</span> widerspiegeln.
+            </h1>
+            <p class="inside-sub">
+              Für Handwerk und kleine Betriebe in der Region – genau nach euren
+              Wünschen, zu Preisen, die man sich leisten kann.
+            </p>
+            <div class="inside-cta">
+              <a href={u(primaryCta.href)} class="btn btn-primary">{primaryCta.label}</a>
+              <a href={u("/#leistungen")} class="btn btn-secondary">Leistungen ansehen</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="device-base device-deco"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .zoom-stage { position: relative; height: 100vh; }
+  .zoom-pin {
+    position: relative; height: 100vh; width: 100%;
+    overflow: hidden; display: grid; place-items: center;
+  }
+  .zoom-white {
+    position: absolute; inset: 0; z-index: 0; background: #ffffff; opacity: 0;
+  }
+
+  .zoom-headline {
+    position: absolute; z-index: 4; top: 10vh; left: 50%; transform: translateX(-50%);
+    width: min(90vw, 720px); text-align: center; opacity: 0; margin: 0;
+  }
+  .zoom-eyebrow {
+    display: block; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--color-accent); margin-bottom: 0.9rem;
+  }
+  .zoom-head-line {
+    display: block; font-family: var(--font-display); font-weight: 560;
+    font-size: clamp(1.8rem, 4.5vw, 3.1rem); line-height: 1.06; letter-spacing: -0.02em;
+    color: var(--color-ink-900);
+  }
+  .zoom-head-line em { font-style: italic; color: var(--color-accent); }
+
+  /* Gerät */
+  .device {
+    position: relative; z-index: 2;
+    width: 100vw; height: 100vh;
+    transform-origin: center center;
+    will-change: transform;
+  }
+  .device-screen {
+    position: absolute; inset: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--color-paper-50);
+    border: 3px solid #16171a;
+    box-shadow: 0 40px 120px -30px rgba(20, 20, 25, 0.55), 0 8px 24px -8px rgba(20,20,25,0.3);
+  }
+  /* Laptop-Standfuß / Tastatur-Deck (Platzhalter, blendet beim Zoom aus) */
+  .device-base {
+    position: absolute; z-index: 1;
+    left: 50%; bottom: -3.4%;
+    width: 116%; height: 3.4%;
+    transform: translateX(-50%);
+    background: linear-gradient(#d3d4d8, #b9bbc0);
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 14px 24px -10px rgba(20,20,25,0.4);
+  }
+  .device-base::after {
+    content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 14%; height: 34%; background: #a9abb1; border-radius: 0 0 8px 8px;
+  }
+
+  .screen-content { position: absolute; inset: 0; display: grid; place-items: center; }
+  .inside-hero {
+    width: min(86%, 880px); padding: 0 1rem;
+    /* leicht abgeblendet im Mini-Zustand, scharf beim Zoom — egal, da rein-skaliert */
+  }
+  .inside-title {
+    font-family: var(--font-display); font-weight: 560;
+    font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1.04; letter-spacing: -0.025em;
+  }
+  .inside-sub {
+    margin-top: 1.25rem; max-width: 34rem; font-size: 1.1rem; line-height: 1.6;
+    color: var(--color-ink-500);
+  }
+  .inside-cta { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .device { transform: none !important; }
+    .device-deco, .zoom-headline, .zoom-white { display: none !important; }
+    .device-screen { border: 0; box-shadow: none; }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const stage = document.querySelector<HTMLElement>(".zoom-stage");
+
+  if (stage && !reduce) {
+    const isMobile = window.innerWidth < 768;
+    const startScale = isMobile ? 0.6 : 0.42;
+    const startY = isMobile ? "5vh" : "8vh";
+
+    // Startzustand setzen (CSS-Default = Vollbild für No-JS-Fall)
+    gsap.set(".device", { scale: startScale, y: startY });
+    gsap.set(".device-deco", { opacity: 1 });
+    gsap.set(".zoom-headline", { opacity: 1, y: 0 });
+    gsap.set(".zoom-white", { opacity: 1 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: stage,
+        start: "top top",
+        end: "+=200%",
+        pin: true,
+        scrub: 0.6,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    // Bildschirm zoomt auf Vollbild
+    tl.to(".device", { scale: 1, y: "0vh", ease: "power1.inOut", duration: 1 }, 0);
+    // Headline blendet früh aus
+    tl.to(".zoom-headline", { opacity: 0, y: -40, ease: "power1.in", duration: 0.32 }, 0);
+    // Weißer Hintergrund + Laptop-Deko verschwinden gegen Ende
+    tl.to(".zoom-white", { opacity: 0, duration: 0.28 }, 0.62);
+    tl.to(".device-deco", { opacity: 0, duration: 0.22 }, 0.6);
+    // Bildschirm-Rahmen entschärfen (wird Teil der Seite)
+    tl.to(".device-screen", { borderWidth: 0, borderRadius: 0, ease: "none", duration: 0.25 }, 0.66);
+  }
+</script>

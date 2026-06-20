@@ -1,0 +1,41 @@
+---
+import Logo from "./Logo.astro";
+import { navigation, site } from "../data/site";
+import { u } from "../lib/url";
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-ink-900 text-paper-50">
+  <div class="container-wide grid gap-12 py-16 md:grid-cols-[1.5fr_1fr_1fr] md:py-20">
+    <div>
+      <Logo variant="light" />
+      <p class="mt-5 max-w-xs text-[0.95rem] leading-relaxed text-paper-50/65">
+        {site.claim} Persönlich betreut von {site.owner}.
+      </p>
+    </div>
+
+    <nav aria-label="Footer-Navigation" class="flex flex-col gap-3 text-[0.95rem]">
+      <span class="mb-1 text-xs uppercase tracking-[0.14em] text-paper-50/45">Seite</span>
+      {navigation.map((item) => (
+        <a href={u(item.href)} class="text-paper-50/80 transition-colors hover:text-paper-50">{item.label}</a>
+      ))}
+    </nav>
+
+    <div class="flex flex-col gap-3 text-[0.95rem]">
+      <span class="mb-1 text-xs uppercase tracking-[0.14em] text-paper-50/45">Kontakt</span>
+      <a href={site.emailHref} class="text-paper-50/80 transition-colors hover:text-paper-50">{site.email}</a>
+      <a href={site.phoneHref} class="text-paper-50/80 transition-colors hover:text-paper-50">{site.phone}</a>
+      <span class="text-paper-50/60">{site.region}</span>
+    </div>
+  </div>
+
+  <div class="border-t border-line-light">
+    <div class="container-wide flex flex-col items-start justify-between gap-3 py-6 text-sm text-paper-50/55 sm:flex-row sm:items-center">
+      <span>© {year} {site.name}</span>
+      <div class="flex gap-6">
+        <a href={u("/impressum")} class="transition-colors hover:text-paper-50">Impressum</a>
+        <a href={u("/datenschutz")} class="transition-colors hover:text-paper-50">Datenschutz</a>
+      </div>
+    </div>
+  </div>
+</footer>

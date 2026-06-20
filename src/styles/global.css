@@ -1,0 +1,255 @@
+@import "tailwindcss";
+
+/* Schriften werden per <link> im Layout eingebunden (public/fonts/fonts.css). */
+
+/* =========================================================================
+   DT Webstudio — Design-System
+   Editorial Light · Terracotta + warmes Off-White · Newsreader / Inter
+   ========================================================================= */
+
+@theme {
+  /* ---- Neutrals (warmes, ruhiges Papier) ---- */
+  --color-paper-50: #f8f6f1;   /* Haupt-Hintergrund */
+  --color-paper-100: #f1eee6;  /* leicht abgesetzte Sektionen */
+  --color-paper-200: #e7e3d8;  /* Karten-Kanten / Felder */
+
+  /* ---- Ink (Text & dunkle Sektionen, leicht kühles Schiefer) ---- */
+  --color-ink-900: #18191b;
+  --color-ink-800: #232427;
+  --color-ink-700: #34363a;
+  --color-ink-500: #5b5e63;    /* gedämpfter Fließtext */
+  --color-ink-400: #7c7f85;
+
+  /* ---- Akzent: Terracotta (eigene DT-Marke) ---- */
+  --color-accent: #c24a2c;
+  --color-accent-600: #a83d22;
+  --color-accent-700: #8c3119;
+  --color-accent-soft: rgba(194, 74, 44, 0.10);
+
+  /* ---- Linien ---- */
+  --color-line: rgba(24, 25, 27, 0.10);
+  --color-line-strong: rgba(24, 25, 27, 0.16);
+  --color-line-light: rgba(248, 246, 241, 0.14);
+
+  /* ---- Typografie ---- */
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* ---- Schatten (warm getönt, nie reines Schwarz) ---- */
+  --shadow-soft: 0 1px 2px rgba(40, 30, 20, 0.04), 0 6px 20px -8px rgba(40, 30, 20, 0.10);
+  --shadow-lift: 0 2px 6px rgba(40, 30, 20, 0.06), 0 18px 44px -14px rgba(40, 30, 20, 0.18);
+
+  /* ---- Radius (eine konsistente Skala) ---- */
+  --radius-btn: 10px;
+  --radius-card: 16px;
+  --radius-pill: 999px;
+
+  /* ---- Easing ---- */
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  :root {
+    scroll-behavior: smooth;
+    --header-h: 72px;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-ink-900);
+    background: var(--color-paper-50);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: calc(var(--header-h) + 16px);
+  }
+
+  body {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 560;
+    letter-spacing: -0.018em;
+    line-height: 1.06;
+    color: var(--color-ink-900);
+    text-wrap: balance;
+  }
+
+  p { text-wrap: pretty; }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* Betonungswort in Headlines: Kursive DERSELBEN Familie (kein Fremd-Serif) */
+  .accent-em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--color-accent);
+    /* Descender-Freiraum für y/g/j/p/q in kursiven Display-Wörtern */
+    line-height: 1.1;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+}
+
+@layer components {
+  .container-wide {
+    width: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .container-wide { padding-inline: 2.5rem; }
+  }
+
+  .container-narrow {
+    width: 100%;
+    max-width: 760px;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  /* Eyebrow — sparsam einsetzen (max. 1 pro 3 Sektionen) */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-accent-700);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background: var(--color-accent);
+    opacity: 0.6;
+  }
+
+  /* ---- Buttons ---- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.4rem;
+    border-radius: var(--radius-btn);
+    font-weight: 500;
+    font-size: 0.975rem;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: transform 0.25s var(--ease-out-soft),
+                background-color 0.25s var(--ease-out-soft),
+                box-shadow 0.25s var(--ease-out-soft),
+                border-color 0.25s var(--ease-out-soft),
+                color 0.25s var(--ease-out-soft);
+  }
+  .btn:active { transform: translateY(1px) scale(0.99); }
+
+  .btn-primary {
+    background: var(--color-accent);
+    color: #fff;
+    box-shadow: var(--shadow-soft);
+  }
+  .btn-primary:hover {
+    background: var(--color-accent-600);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-ink-900);
+    border: 1px solid var(--color-line-strong);
+  }
+  .btn-secondary:hover {
+    border-color: var(--color-ink-900);
+    transform: translateY(-2px);
+  }
+
+  /* Helle Variante für dunkle Sektionen */
+  .btn-on-dark {
+    background: var(--color-paper-50);
+    color: var(--color-ink-900);
+  }
+  .btn-on-dark:hover {
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lift);
+  }
+  .btn-outline-light {
+    background: transparent;
+    color: var(--color-paper-50);
+    border: 1px solid var(--color-line-light);
+  }
+  .btn-outline-light:hover {
+    border-color: var(--color-paper-50);
+    transform: translateY(-2px);
+  }
+
+  /* ---- Karte ---- */
+  .card {
+    background: #fff;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.35s var(--ease-out-soft),
+                box-shadow 0.35s var(--ease-out-soft),
+                border-color 0.35s var(--ease-out-soft);
+  }
+
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size 0.3s var(--ease-out-soft);
+  }
+  .link-underline:hover { background-size: 100% 1px; }
+}
+
+@layer utilities {
+  /* Scroll-Reveal (wird per IntersectionObserver in .is-visible überführt) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.7s var(--ease-out-soft), transform 0.7s var(--ease-out-soft);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { scroll-behavior: auto; }
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .btn, .card { transition: none !important; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

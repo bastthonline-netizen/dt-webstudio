@@ -1,0 +1,23 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string; // darf <span class="accent-em">…</span> enthalten
+  lead?: string;
+  align?: "left" | "center";
+  variant?: "dark" | "light";
+}
+const { eyebrow, title, lead, align = "left", variant = "dark" } = Astro.props;
+const titleColor = variant === "light" ? "text-paper-50" : "text-ink-900";
+const leadColor = variant === "light" ? "text-paper-50/70" : "text-ink-500";
+const alignCls = align === "center" ? "mx-auto text-center items-center" : "";
+---
+
+<div class={`flex max-w-2xl flex-col ${alignCls}`}>
+  {eyebrow && <span class="eyebrow reveal">{eyebrow}</span>}
+  <h2 class={`reveal mt-4 text-3xl sm:text-4xl lg:text-[2.75rem] ${titleColor}`} set:html={title} />
+  {lead && (
+    <p class={`reveal mt-5 max-w-xl text-lg leading-relaxed ${leadColor}`} style="--reveal-delay: 80ms;">
+      {lead}
+    </p>
+  )}
+</div>

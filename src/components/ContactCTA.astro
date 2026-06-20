@@ -1,0 +1,41 @@
+---
+import SectionHeading from "./SectionHeading.astro";
+import { site } from "../data/site";
+---
+
+<section id="kontakt" class="scroll-mt-24 bg-ink-900 text-paper-50">
+  <div class="container-wide grid gap-12 py-24 md:py-32 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+    <SectionHeading
+      eyebrow="Kontakt"
+      variant="light"
+      title='Lassen Sie uns über Ihre <span class="accent-em">Website</span> reden.'
+      lead="Erzählen Sie mir kurz von Ihrem Betrieb oder Verein. Ich melde mich persönlich – unverbindlich und ohne Verkaufsdruck."
+    />
+
+    <div class="reveal flex flex-col gap-4" style="--reveal-delay: 120ms;">
+      <a
+        href={site.emailHref}
+        class="group flex items-center justify-between rounded-[var(--radius-card)] border border-line-light p-6 transition-colors hover:border-paper-50/40"
+      >
+        <span>
+          <span class="block text-sm text-paper-50/55">E-Mail</span>
+          <span class="mt-1 block font-display text-xl">{site.email}</span>
+        </span>
+        <span class="text-accent transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">→</span>
+      </a>
+
+      <a
+        href={site.phoneHref}
+        class="group flex items-center justify-between rounded-[var(--radius-card)] border border-line-light p-6 transition-colors hover:border-paper-50/40"
+      >
+        <span>
+          <span class="block text-sm text-paper-50/55">Telefon</span>
+          <span class="mt-1 block font-display text-xl">{site.phone}</span>
+        </span>
+        <span class="text-accent transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">→</span>
+      </a>
+
+      <p class="mt-1 text-sm text-paper-50/50">{site.region}</p>
+    </div>
+  </div>
+</section>

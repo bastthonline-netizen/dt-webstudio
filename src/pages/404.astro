@@ -1,0 +1,17 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { u } from "../lib/url";
+---
+
+<Layout title="Seite nicht gefunden" description="Diese Seite gibt es leider nicht.">
+  <section class="flex min-h-[80vh] items-center">
+    <div class="container-narrow text-center">
+      <span class="eyebrow mx-auto">Fehler 404</span>
+      <h1 class="mt-5 text-5xl sm:text-6xl">Hier geht es leider <span class="accent-em">nicht weiter</span>.</h1>
+      <p class="mx-auto mt-5 max-w-md text-lg text-ink-500">
+        Die gesuchte Seite existiert nicht oder wurde verschoben.
+      </p>
+      <a href={u("/")} class="btn btn-primary mt-9">Zurück zur Startseite</a>
+    </div>
+  </section>
+</Layout>

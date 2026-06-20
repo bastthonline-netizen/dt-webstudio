@@ -1,0 +1,76 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { site } from "../data/site";
+---
+
+<Layout title="Datenschutz" description="Datenschutzerklärung von DT Webstudio.">
+  <article class="container-narrow pb-24 pt-[calc(var(--header-h)+4rem)]">
+    <h1 class="text-4xl sm:text-5xl">Datenschutz</h1>
+
+    <div class="mt-10 space-y-8 text-ink-700 [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:text-ink-900 [&_p]:mt-2 [&_p]:leading-relaxed">
+      <p class="rounded-[var(--radius-card)] border border-line bg-paper-100 p-4 text-sm text-ink-500">
+        Hinweis: Diese Erklärung deckt den aktuellen Umfang der Seite ab (kein Formular, kein Tracking, lokale Schriften). Bei neuen Funktionen bitte anpassen und vor Veröffentlichung rechtlich prüfen lassen.
+      </p>
+
+      <section>
+        <h2>Verantwortlicher</h2>
+        <p>{site.address.company}, {site.owner}</p>
+        <p>{site.address.street}, {site.address.zip} {site.address.city}</p>
+        <p>E-Mail: {site.email}</p>
+      </section>
+
+      <section>
+        <h2>Hosting &amp; Server-Logs</h2>
+        <p>
+          Beim Aufruf dieser Website werden durch den Hosting-Anbieter technisch notwendige
+          Daten (z. B. IP-Adresse, Datum/Uhrzeit, abgerufene Seite) verarbeitet. Rechtsgrundlage
+          ist das berechtigte Interesse am sicheren Betrieb (Art. 6 Abs. 1 lit. f DSGVO).
+        </p>
+      </section>
+
+      <section>
+        <h2>Schriften</h2>
+        <p>
+          Diese Website nutzt ausschließlich lokal eingebundene Schriftarten. Es werden
+          keine Daten an Google Fonts oder andere externe Anbieter übertragen.
+        </p>
+      </section>
+
+      <section>
+        <h2>Kontaktaufnahme</h2>
+        <p>
+          Wenn Sie per E-Mail oder Telefon Kontakt aufnehmen, werden Ihre Angaben zur
+          Bearbeitung der Anfrage gespeichert und nicht ohne Einwilligung weitergegeben.
+        </p>
+      </section>
+
+      <section>
+        <h2>Speicherdauer</h2>
+        <p>
+          Wir speichern personenbezogene Daten nur so lange, wie es für den jeweiligen
+          Zweck nötig ist. Anfragen per E-Mail oder Telefon werden nach vollständiger
+          Bearbeitung gelöscht, sofern keine gesetzlichen Aufbewahrungspflichten
+          entgegenstehen. Server-Logs werden nach kurzer Zeit automatisch gelöscht.
+        </p>
+      </section>
+
+      <section>
+        <h2>Ihre Rechte</h2>
+        <p>
+          Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der
+          Verarbeitung, Datenübertragbarkeit sowie Widerspruch gegen die Verarbeitung
+          Ihrer personenbezogenen Daten.
+        </p>
+      </section>
+
+      <section>
+        <h2>Beschwerderecht bei der Aufsichtsbehörde</h2>
+        <p>
+          Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren.
+          Zuständig ist das Bayerische Landesamt für Datenschutzaufsicht (BayLDA),
+          Promenade 18, 91522 Ansbach.
+        </p>
+      </section>
+    </div>
+  </article>
+</Layout>

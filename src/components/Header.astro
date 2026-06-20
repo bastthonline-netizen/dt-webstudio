@@ -1,0 +1,131 @@
+---
+import Logo from "./Logo.astro";
+import { navigation, primaryCta } from "../data/site";
+import { u } from "../lib/url";
+---
+
+<header
+  id="site-header"
+  class="fixed inset-x-0 top-0 z-50 h-[var(--header-h)] border-b border-transparent transition-all duration-300"
+>
+  <div class="container-wide flex h-full items-center justify-between gap-6">
+    <a href={u("/")} aria-label="DT Webstudio – Startseite" class="shrink-0">
+      <Logo />
+    </a>
+
+    <nav class="hidden items-center gap-8 md:flex" aria-label="Hauptnavigation">
+      {navigation.map((item) => (
+        <a
+          href={u(item.href)}
+          class="link-underline text-[0.95rem] text-ink-700 transition-colors hover:text-ink-900"
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="hidden md:block">
+      <a href={u(primaryCta.href)} class="btn btn-primary">{primaryCta.label}</a>
+    </div>
+
+    <!-- Mobile-Toggle -->
+    <button
+      id="menu-toggle"
+      class="relative z-50 flex h-10 w-10 items-center justify-center md:hidden"
+      aria-label="Menü öffnen"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span class="menu-bars" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <!-- Mobile-Menü -->
+  <div
+    id="mobile-menu"
+    class="invisible fixed inset-0 top-0 z-40 translate-y-[-8px] bg-paper-50/98 opacity-0 backdrop-blur-sm transition-all duration-300 md:hidden"
+  >
+    <nav class="container-wide flex h-full flex-col justify-center gap-2" aria-label="Mobile Navigation">
+      {navigation.map((item) => (
+        <a
+          href={u(item.href)}
+          class="mobile-link border-b border-line py-4 font-display text-2xl text-ink-900"
+        >
+          {item.label}
+        </a>
+      ))}
+      <a href={u(primaryCta.href)} class="btn btn-primary mt-6 self-start">{primaryCta.label}</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  /* Hamburger: drei Linien, schließen sich zum X */
+  .menu-bars {
+    position: relative;
+    width: 22px;
+    height: 1.5px;
+    background: var(--color-ink-900);
+    transition: background-color 0.2s ease;
+  }
+  .menu-bars::before,
+  .menu-bars::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 22px;
+    height: 1.5px;
+    background: var(--color-ink-900);
+    transition: transform 0.3s var(--ease-out-soft);
+  }
+  .menu-bars::before { transform: translateY(-6px); }
+  .menu-bars::after { transform: translateY(6px); }
+
+  :global(#menu-toggle[aria-expanded="true"]) .menu-bars { background: transparent; }
+  :global(#menu-toggle[aria-expanded="true"]) .menu-bars::before { transform: rotate(45deg); }
+  :global(#menu-toggle[aria-expanded="true"]) .menu-bars::after { transform: rotate(-45deg); }
+</style>
+
+<script>
+  const header = document.getElementById("site-header");
+  const toggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+
+  // Scroll-Zustand: Hintergrund + Schatten erst nach kurzem Scrollen
+  const onScroll = () => {
+    if (!header) return;
+    if (window.scrollY > 8) {
+      header.classList.add("is-scrolled");
+    } else {
+      header.classList.remove("is-scrolled");
+    }
+  };
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  // Mobile-Menü
+  const setMenu = (open: boolean) => {
+    if (!toggle || !menu) return;
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Menü schließen" : "Menü öffnen");
+    menu.classList.toggle("invisible", !open);
+    menu.classList.toggle("opacity-0", !open);
+    menu.classList.toggle("translate-y-[-8px]", !open);
+    document.body.style.overflow = open ? "hidden" : "";
+  };
+  toggle?.addEventListener("click", () => {
+    setMenu(toggle.getAttribute("aria-expanded") !== "true");
+  });
+  menu?.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => setMenu(false)),
+  );
+</script>
+
+<style is:global>
+  #site-header.is-scrolled {
+    background: rgba(248, 246, 241, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom-color: var(--color-line);
+  }
+</style>

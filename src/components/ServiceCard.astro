@@ -1,0 +1,23 @@
+---
+import Icon from "./Icon.astro";
+import type { Service } from "../data/site";
+interface Props {
+  service: Service;
+  index?: number;
+}
+const { service, index = 0 } = Astro.props;
+const delay = (index % 3) * 70;
+---
+
+<article
+  class="card reveal group flex flex-col p-7 hover:-translate-y-1 hover:border-line-strong hover:shadow-[var(--shadow-lift)]"
+  style={`--reveal-delay: ${delay}ms;`}
+>
+  <span
+    class="flex h-12 w-12 items-center justify-center rounded-[12px] bg-accent-soft text-accent transition-colors duration-300 group-hover:bg-accent group-hover:text-white"
+  >
+    <Icon name={service.icon} class="h-6 w-6" />
+  </span>
+  <h3 class="mt-5 text-xl text-ink-900">{service.title}</h3>
+  <p class="mt-2.5 text-[0.97rem] leading-relaxed text-ink-500">{service.text}</p>
+</article>
