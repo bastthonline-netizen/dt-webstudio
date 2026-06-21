@@ -16,6 +16,27 @@ const {
 } = Astro.props;
 
 const fullTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.tagline}`;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL("og-image.png", Astro.site).href; // TODO: og-image.png (1200×630) in /public ablegen
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: site.name,
+  description,
+  url: Astro.site?.href,
+  email: site.email,
+  telephone: site.phone,
+  areaServed: "Rosenheim, Inntal, Oberbayern",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: site.address.street,
+    postalCode: site.address.zip,
+    addressLocality: site.address.city,
+    addressCountry: "DE",
+  },
+};
 ---
 
 <!doctype html>
@@ -29,11 +50,17 @@ const fullTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.t
     <meta name="generator" content={Astro.generator} />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#f8f6f1" />
+    <link rel="canonical" href={canonical} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
     <title>{fullTitle}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
     <a

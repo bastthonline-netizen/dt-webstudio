@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://bastthonline-netizen.github.io/dt-webstudio/sitemap-index.xml
+Sitemap: https://dt-webstudio.pages.dev/sitemap-index.xml

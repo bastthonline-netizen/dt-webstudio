@@ -2,12 +2,15 @@
 import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
-// Gehostet auf GitHub Pages unter /dt-webstudio/ — daher base setzen.
+// Gehostet auf Cloudflare Pages (im Root, kein Unterpfad).
+// site später auf die echte Domain umstellen (z. B. https://dt-webstudio.de).
 export default defineConfig({
-  site: 'https://bastthonline-netizen.github.io',
-  base: '/dt-webstudio',
+  site: 'https://dt-webstudio.pages.dev',
+  base: '/',
+  integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()]
   }
