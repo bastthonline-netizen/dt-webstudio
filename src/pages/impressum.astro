@@ -11,10 +11,13 @@ import { site } from "../data/site";
       <section>
         <h2>Angaben gemäß § 5 DDG</h2>
         <p>{site.address.company}</p>
-        <p>Vertreten durch die Gesellschafter: {site.partners.join(" und ")}</p>
         <p>{site.address.street}</p>
         <p>{site.address.zip} {site.address.city}</p>
-        <p>{site.address.country}</p>
+      </section>
+
+      <section>
+        <h2>Vertreten durch</h2>
+        {site.partners.map((p) => <p>{p}</p>)}
       </section>
 
       <section>
@@ -24,17 +27,28 @@ import { site } from "../data/site";
       </section>
 
       <section>
-        <h2>Umsatzsteuer</h2>
+        <h2>Umsatzsteuer-ID</h2>
         <p>
-          Als Kleinunternehmer im Sinne von § 19 UStG erheben wir keine Umsatzsteuer
-          und weisen diese daher nicht aus. Eine Umsatzsteuer-Identifikationsnummer
-          besteht nicht.
+          Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br />
+          {site.ustId}
         </p>
       </section>
 
       <section>
-        <h2>Verantwortlich für den Inhalt</h2>
-        <p>{site.owner}, Anschrift wie oben.</p>
+        <h2>Redaktionell verantwortlich</h2>
+        <p>
+          {site.contentResponsible}<br />
+          {site.address.street}<br />
+          {site.address.zip} {site.address.city}
+        </p>
+      </section>
+
+      <section>
+        <h2>Verbraucherstreitbeilegung/Universalschlichtungsstelle</h2>
+        <p>
+          Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor
+          einer Verbraucherschlichtungsstelle teilzunehmen.
+        </p>
       </section>
     </div>
   </article>

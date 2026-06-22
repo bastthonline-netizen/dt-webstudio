@@ -1,22 +1,23 @@
 // Zentrale Inhalte & Stammdaten der Seite.
-// TODO(Basti): echte Kontaktdaten / Impressum-Angaben eintragen.
 
 export const site = {
   name: "DT Webstudio",
   tagline: "Websites für die Region",
   claim: "Handgemachte Websites für Handwerk & kleine Betriebe.",
   region: "Rosenheim · Inntal · Oberbayern",
-  email: "dt.webstudio@web.de",
-  emailHref: "mailto:dt.webstudio@web.de",
+  email: "DT.webstudio@web.de",
+  emailHref: "mailto:DT.webstudio@web.de",
   phone: "+49 159 060 12 878",
   phoneHref: "tel:+4915906012878",
   owner: "Bastian Thome & Christian Dachauer",
   legalForm: "GbR",
   partners: ["Bastian Thome", "Christian Dachauer"],
+  ustId: "DE462160686",
+  contentResponsible: "Bastian Thome",
   address: {
-    company: "DT Webstudio GbR",
-    street: "Mittelfeldweg 23",
-    zip: "83064", // PLZ Raubling – bitte kurz bestätigen
+    company: "Christian Markus Dachauer und Bastian Luca Thome GbR",
+    street: "Mitterfeldweg 23",
+    zip: "83064",
     city: "Raubling",
     country: "Deutschland",
   },

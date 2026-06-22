@@ -1,0 +1,11 @@
+# Sicherheits-Header für Cloudflare Pages (gelten für alle Routen).
+# Die Seite lädt ausschließlich eigene (same-origin) Assets:
+# selbst gehostete Schriften, lokal gebündeltes GSAP/Three.js, JSON-LD
+# und Astros inline <script type="module">. Keine externen Anbieter.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=(), usb=(), bluetooth=(), accelerometer=(), gyroscope=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'
