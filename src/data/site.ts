@@ -52,8 +52,8 @@ export const services: Service[] = [
     icon: "code",
   },
   {
-    title: "SEO & Tempo",
-    text: "Schnelle Ladezeiten und sinnvolle Optimierung, damit Kundinnen und Kunden Sie bei Google finden.",
+    title: "SEO & KI-Optimierung",
+    text: "Schnelle Ladezeiten und saubere Optimierung – damit man Sie bei Google findet und Sie auch in KI-Suchen (ChatGPT, Google AI-Übersichten & Co.) als Antwort auftauchen.",
     icon: "gauge",
   },
   {
@@ -68,7 +68,7 @@ export const services: Service[] = [
   },
   {
     title: "Pflege & Betreuung",
-    text: "Auch nach dem Start bleibe ich Ansprechpartner: Updates, kleine Änderungen, neue Inhalte.",
+    text: "Auch nach dem Start bleiben wir Ansprechpartner: Updates, kleine Änderungen, neue Inhalte.",
     icon: "wrench",
   },
 ];
@@ -81,7 +81,7 @@ export type Step = {
 export const process: Step[] = [
   {
     title: "Kennenlernen",
-    text: "Wir reden – am Telefon oder bei Ihnen vor Ort. Ich höre zu, was Sie brauchen und wer Ihre Kunden sind.",
+    text: "Wir reden – am Telefon oder bei Ihnen vor Ort. Wir hören zu, was Sie brauchen und wer Ihre Kunden sind.",
   },
   {
     title: "Konzept",
@@ -89,11 +89,11 @@ export const process: Step[] = [
   },
   {
     title: "Umsetzung",
-    text: "Ich baue die Seite, Sie sehen Zwischenstände. Änderungen sind eingeplant, kein starres Schema.",
+    text: "Wir bauen die Seite, Sie sehen Zwischenstände. Änderungen sind eingeplant, kein starres Schema.",
   },
   {
     title: "Launch & Betreuung",
-    text: "Die Seite geht online – und ich bleibe erreichbar. Persönlich, ohne Hotline-Warteschleife.",
+    text: "Die Seite geht online – und wir bleiben erreichbar. Persönlich, ohne Hotline-Warteschleife.",
   },
 ];
 
@@ -109,7 +109,7 @@ export const values: Value[] = [
   },
   {
     title: "Ihre Website, Ihre Wünsche",
-    text: "Die Seite soll Ihren Betrieb widerspiegeln – nicht meine Vorlage. Wir bauen genau das, was zu Ihnen passt.",
+    text: "Die Seite soll Ihren Betrieb widerspiegeln – nicht unsere Vorlage. Wir bauen genau das, was zu Ihnen passt.",
   },
   {
     title: "Bezahlbar für kleine Betriebe",

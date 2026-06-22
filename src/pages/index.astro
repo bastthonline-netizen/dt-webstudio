@@ -5,7 +5,7 @@ import SectionHeading from "../components/SectionHeading.astro";
 import ServiceCard from "../components/ServiceCard.astro";
 import ProcessStep from "../components/ProcessStep.astro";
 import ContactCTA from "../components/ContactCTA.astro";
-import { services, process, values, references, pricing, primaryCta } from "../data/site";
+import { services, process, values, pricing, primaryCta } from "../data/site";
 import { u } from "../lib/url";
 ---
 
@@ -16,7 +16,7 @@ import { u } from "../lib/url";
   <section id="leistungen" class="scroll-mt-24 bg-paper-100">
     <div class="container-wide py-24 md:py-32">
       <SectionHeading
-        title='Was ich für Sie <span class="accent-em">baue</span>.'
+        title='Was wir für Sie <span class="accent-em">bauen</span>.'
         lead="Vom ersten Entwurf bis zur fertigen Seite – alles aus einer Hand, ohne Agentur-Apparat dazwischen."
       />
       <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -78,7 +78,7 @@ import { u } from "../lib/url";
       <div class="max-w-xl">
         <SectionHeading
           title='Eine Website ist Vertrauenssache. <span class="accent-em">Persönlich</span> gemacht.'
-          lead="DT Webstudio ist kein anonymer Dienstleister, sondern ein Ansprechpartner aus der Region. Ich kenne die Betriebe und Vereine im Inntal – und baue Seiten, die hier wirklich ankommen."
+          lead="DT Webstudio ist kein anonymer Dienstleister, sondern ein Ansprechpartner aus der Region. Wir kennen die Betriebe und Vereine im Inntal – und bauen Seiten, die hier wirklich ankommen."
         />
         <a href={u("/#kontakt")} class="reveal mt-8 inline-flex" style="--reveal-delay: 120ms;">
           <span class="btn btn-secondary">Projekt anfragen</span>
@@ -93,23 +93,6 @@ import { u } from "../lib/url";
           </div>
         ))}
       </div>
-    </div>
-  </section>
-
-  <!-- ===== Referenzen (dezenter Vertrauens-Streifen) ===== -->
-  <section class="bg-paper-50">
-    <div class="container-wide border-t border-line py-14 md:py-16">
-      <p class="reveal text-sm uppercase tracking-[0.14em] text-ink-400">
-        Schon gebaut für Betriebe &amp; Vereine in der Region
-      </p>
-      <ul class="reveal mt-7 flex flex-wrap gap-x-10 gap-y-5" style="--reveal-delay: 80ms;">
-        {references.map((ref) => (
-          <li class="flex items-baseline gap-2">
-            <span class="font-display text-lg text-ink-800">{ref.name}</span>
-            <span class="text-sm text-ink-400">{ref.kind}</span>
-          </li>
-        ))}
-      </ul>
     </div>
   </section>
 
