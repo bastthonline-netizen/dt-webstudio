@@ -23,6 +23,7 @@ import { site } from "../data/site";
       <section>
         <h2>Kontakt</h2>
         <p>Telefon: {site.phone}</p>
+        <p>Telefax: {site.fax}</p>
         <p>E-Mail: {site.email}</p>
       </section>
 
@@ -31,15 +32,6 @@ import { site } from "../data/site";
         <p>
           Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br />
           {site.ustId}
-        </p>
-      </section>
-
-      <section>
-        <h2>Redaktionell verantwortlich</h2>
-        <p>
-          {site.contentResponsible}<br />
-          {site.address.street}<br />
-          {site.address.zip} {site.address.city}
         </p>
       </section>
 

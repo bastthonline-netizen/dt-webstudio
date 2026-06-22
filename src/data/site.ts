@@ -13,7 +13,7 @@ export const site = {
   legalForm: "GbR",
   partners: ["Bastian Thome", "Christian Dachauer"],
   ustId: "DE462160686",
-  contentResponsible: "Bastian Thome",
+  fax: "08034 7472",
   address: {
     company: "Christian Markus Dachauer und Bastian Luca Thome GbR",
     street: "Mitterfeldweg 23",
