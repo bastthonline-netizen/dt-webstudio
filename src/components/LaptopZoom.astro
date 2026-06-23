@@ -17,7 +17,8 @@ import { primaryCta } from "../data/site";
     <!-- Gerät: wird beim Scrollen skaliert -->
     <div class="lz-device">
       <div class="lz-device-in">
-        <img class="lz-photo" src={u("/img/laptop.png")} alt="" draggable="false" />
+        <img class="lz-photo lz-photo--laptop" src={u("/img/laptop.png")} alt="" draggable="false" />
+        <img class="lz-photo lz-photo--phone" src={u("/img/phone.png")} alt="" draggable="false" />
 
         <!-- Screen-Overlay exakt auf der Glasfläche -->
         <div class="lz-screen">
@@ -116,6 +117,7 @@ import { primaryCta } from "../data/site";
     object-fit: contain; user-select: none; -webkit-user-drag: none;
     z-index: 1; pointer-events: none;
   }
+  .lz-photo--phone { display: none; }
 
   /* Screen-Overlay – sitzt exakt auf der Glasfläche (Werte aus Bildmessung) */
   .lz-screen {
@@ -210,6 +212,17 @@ import { primaryCta } from "../data/site";
   }
   .lz-hint-line { width: 1px; height: 38px; background: linear-gradient(rgba(244,241,236,0.7), transparent); }
 
+  /* --- Mobil: Smartphone statt Laptop --- */
+  @media (max-width: 767px) {
+    .lz-photo--laptop { display: none; }
+    .lz-photo--phone { display: block; }
+    .lz-device { aspect-ratio: 414 / 820; width: min(64vw, 320px); }
+    .lz-screen {
+      left: 8%; top: 4.5%; width: 84%; height: 91%;
+      border-radius: 26px;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .lz, .lz-pin { height: auto; }
     .lz-pin { padding: 8vh 1rem; }
@@ -224,6 +237,8 @@ import { primaryCta } from "../data/site";
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   gsap.registerPlugin(ScrollTrigger);
+  // iOS/Android: URL-Leiste-Resize ignorieren -> kein Springen beim Pinnen
+  ScrollTrigger.config({ ignoreMobileResize: true });
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const root = document.querySelector<HTMLElement>(".lz");
@@ -287,6 +302,7 @@ import { primaryCta } from "../data/site";
         start: "top top",
         end: "+=200%",
         pin: true,
+        anticipatePin: 1,
         scrub: 1,
         invalidateOnRefresh: true,
         onRefresh: computeZoom,
