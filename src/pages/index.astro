@@ -7,6 +7,34 @@ import ProcessStep from "../components/ProcessStep.astro";
 import ContactCTA from "../components/ContactCTA.astro";
 import { services, process, values, pricing, primaryCta } from "../data/site";
 import { u } from "../lib/url";
+
+// FAQ – beantwortet die häufigsten Fragen und liefert Google/KI zitierbare Antworten (AEO/GEO).
+const faq = [
+  {
+    q: "Was kostet eine Website bei DT Webstudio?",
+    a: "Das hängt vom Umfang ab – eine kompakte Visitenkarten-Seite ist günstiger als eine umfangreiche Website mit vielen Unterseiten. Wir bauen bewusst für kleine Betriebe und Vereine zu fairen Preisen und machen Ihnen vorab ein klares, unverbindliches Angebot.",
+  },
+  {
+    q: "Wie lange dauert es, bis meine Website fertig ist?",
+    a: "Je nach Umfang meist wenige Wochen. Nach einem kurzen Kennenlernen bauen wir die Seite, Sie sehen Zwischenstände und geben Feedback – Sie wissen jederzeit, woran wir gerade arbeiten.",
+  },
+  {
+    q: "Brauche ich eigene Texte und Fotos?",
+    a: "Hilfreich, aber kein Muss. Wenn Sie Texte und Bilder haben, super – wenn nicht, unterstützen wir Sie dabei, damit Ihre Seite professionell wirkt.",
+  },
+  {
+    q: "Sieht meine Website auch auf dem Handy gut aus?",
+    a: "Immer. Jede Seite wird von Grund auf fürs Smartphone gebaut (mobile-first) und funktioniert auf allen Geräten – über die Hälfte Ihrer Besucher kommt vom Handy.",
+  },
+  {
+    q: "Werde ich bei Google gefunden?",
+    a: "Wir bauen Ihre Seite technisch sauber und schnell, mit sinnvoller Suchmaschinen-Optimierung – damit Kundinnen und Kunden Sie bei Google und zunehmend auch in KI-Suchen finden.",
+  },
+  {
+    q: "Kümmert ihr euch auch nach dem Launch um die Seite?",
+    a: "Ja. Auf Wunsch bleiben wir Ihr Ansprechpartner für Updates, kleine Änderungen und neue Inhalte – persönlich, ohne Hotline-Warteschleife.",
+  },
+];
 ---
 
 <Layout>
@@ -95,6 +123,40 @@ import { u } from "../lib/url";
       </div>
     </div>
   </section>
+
+  <!-- ===== FAQ ===== -->
+  <section id="faq" class="scroll-mt-24 bg-paper-100">
+    <div class="container-wide py-24 md:py-32">
+      <SectionHeading
+        title='Häufige <span class="accent-em">Fragen</span>.'
+        lead="Die Punkte, die uns am häufigsten gestellt werden – kurz und ehrlich beantwortet."
+      />
+      <div class="mx-auto mt-14 max-w-3xl divide-y divide-line overflow-hidden rounded-[var(--radius-card)] border border-line bg-paper-50">
+        {faq.map((item, i) => (
+          <details class="reveal group" name="faq" style={`--reveal-delay: ${i * 60}ms;`}>
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-6 text-lg font-display text-ink-900 [&::-webkit-details-marker]:hidden">
+              <span>{item.q}</span>
+              <span class="shrink-0 text-2xl leading-none text-accent transition-transform duration-300 group-open:rotate-45" aria-hidden="true">+</span>
+            </summary>
+            <p class="-mt-1 px-6 pb-6 leading-relaxed text-ink-500">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faq.map((item) => ({
+        "@type": "Question",
+        name: item.q,
+        acceptedAnswer: { "@type": "Answer", text: item.a },
+      })),
+    })}
+  />
 
   <!-- ===== Kontakt (dunkler Abschluss) ===== -->
   <ContactCTA />
