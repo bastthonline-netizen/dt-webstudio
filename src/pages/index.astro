@@ -1,163 +1,92 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import LaptopZoom from "../components/LaptopZoom.astro";
-import SectionHeading from "../components/SectionHeading.astro";
-import ServiceCard from "../components/ServiceCard.astro";
-import ProcessStep from "../components/ProcessStep.astro";
-import ContactCTA from "../components/ContactCTA.astro";
-import { services, process, values, pricing, primaryCta } from "../data/site";
+import WebsiteReel from "../components/WebsiteReel.astro";
+import { primaryCta } from "../data/site";
 import { u } from "../lib/url";
-
-// FAQ – beantwortet die häufigsten Fragen und liefert Google/KI zitierbare Antworten (AEO/GEO).
-const faq = [
-  {
-    q: "Was kostet eine Website bei DT Webstudio?",
-    a: "Das hängt vom Umfang ab – eine kompakte Visitenkarten-Seite ist günstiger als eine umfangreiche Website mit vielen Unterseiten. Wir bauen bewusst für kleine Betriebe und Vereine zu fairen Preisen und machen Ihnen vorab ein klares, unverbindliches Angebot.",
-  },
-  {
-    q: "Wie lange dauert es, bis meine Website fertig ist?",
-    a: "Je nach Umfang meist wenige Wochen. Nach einem kurzen Kennenlernen bauen wir die Seite, Sie sehen Zwischenstände und geben Feedback – Sie wissen jederzeit, woran wir gerade arbeiten.",
-  },
-  {
-    q: "Brauche ich eigene Texte und Fotos?",
-    a: "Hilfreich, aber kein Muss. Wenn Sie Texte und Bilder haben, super – wenn nicht, unterstützen wir Sie dabei, damit Ihre Seite professionell wirkt.",
-  },
-  {
-    q: "Sieht meine Website auch auf dem Handy gut aus?",
-    a: "Immer. Jede Seite wird von Grund auf fürs Smartphone gebaut (mobile-first) und funktioniert auf allen Geräten – über die Hälfte Ihrer Besucher kommt vom Handy.",
-  },
-  {
-    q: "Werde ich bei Google gefunden?",
-    a: "Wir bauen Ihre Seite technisch sauber und schnell, mit sinnvoller Suchmaschinen-Optimierung – damit Kundinnen und Kunden Sie bei Google und zunehmend auch in KI-Suchen finden.",
-  },
-  {
-    q: "Kümmert ihr euch auch nach dem Launch um die Seite?",
-    a: "Ja. Auf Wunsch bleiben wir Ihr Ansprechpartner für Updates, kleine Änderungen und neue Inhalte – persönlich, ohne Hotline-Warteschleife.",
-  },
-];
 ---
 
 <Layout>
   <LaptopZoom />
 
-  <!-- ===== Leistungen (Karten-Raster) ===== -->
-  <section id="leistungen" class="scroll-mt-24 bg-paper-100">
-    <div class="container-wide py-24 md:py-32">
-      <SectionHeading
-        title='Was wir für Sie <span class="accent-em">bauen</span>.'
-        lead="Vom ersten Entwurf bis zur fertigen Seite – alles aus einer Hand, ohne Agentur-Apparat dazwischen."
-      />
-      <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((service, i) => <ServiceCard service={service} index={i} />)}
+  <!-- ===== Hero Split: Pitch links · WebsiteReel rechts ===== -->
+  <section class="hero-split" aria-label="Was wir bauen">
+    <div class="hs-inner">
+
+      <div class="hs-text">
+        <span class="hs-eyebrow">Webstudio · Inntal &amp; Rosenheim</span>
+        <h1 class="hs-title">
+          Websites, die deinen<br />
+          <span class="accent-em">Betrieb</span> widerspiegeln.
+        </h1>
+        <p class="hs-sub">
+          Für Handwerk und kleine Betriebe in der Region —&nbsp;genau nach euren
+          Wünschen, zu Preisen, die man sich leisten kann.
+        </p>
+        <div class="hs-cta-row">
+          <a href={u(primaryCta.href)} class="btn btn-primary">{primaryCta.label}</a>
+          <a href={u("/starter")} class="btn btn-secondary">Starter ansehen&nbsp;→</a>
+        </div>
       </div>
+
+      <div class="hs-reel">
+        <WebsiteReel />
+      </div>
+
     </div>
   </section>
-
-  <!-- ===== Preise ===== -->
-  <section id="preise" class="scroll-mt-24 bg-paper-50">
-    <div class="container-wide py-24 md:py-32">
-      <SectionHeading
-        title='Faire Preise für <span class="accent-em">kleine Betriebe</span>.'
-        lead={pricing.note}
-      />
-
-      <div class="mt-14 grid gap-5 md:grid-cols-2">
-        {pricing.packages.map((p) => (
-          <article class="card reveal flex flex-col p-8">
-            <h3 class="text-xl text-ink-900">{p.name}</h3>
-            <p class="mt-3 font-display text-4xl text-accent">{p.price}</p>
-            <p class="mt-4 text-[0.97rem] leading-relaxed text-ink-500">{p.desc}</p>
-            <a href={u(primaryCta.href)} class="btn btn-primary mt-7 self-start">Projekt anfragen</a>
-          </article>
-        ))}
-      </div>
-
-      <div class="reveal mt-10 rounded-[var(--radius-card)] border border-line bg-paper-100 p-7 md:p-9">
-        <h3 class="font-display text-xl text-ink-900">Das klären wir vorher gemeinsam</h3>
-        <ul class="mt-6 grid gap-x-10 gap-y-4 sm:grid-cols-2">
-          {pricing.factors.map((f) => (
-            <li class="border-t border-line pt-4 text-[0.97rem] leading-relaxed text-ink-700">{f}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== Ablauf (Zeitstrahl) ===== -->
-  <section id="ablauf" class="scroll-mt-24 bg-paper-100">
-    <div class="container-wide grid gap-12 py-24 md:py-32 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
-      <div class="lg:sticky lg:top-28 lg:self-start">
-        <SectionHeading
-          title='So entsteht Ihre <span class="accent-em">Website</span>.'
-          lead="Ein klarer, ruhiger Ablauf in vier Schritten. Sie wissen jederzeit, woran wir gerade arbeiten."
-        />
-      </div>
-      <ol class="lg:pt-2">
-        {process.map((step, i) => (
-          <ProcessStep step={step} index={i} last={i === process.length - 1} />
-        ))}
-      </ol>
-    </div>
-  </section>
-
-  <!-- ===== Über uns / Regional & Persönlich (asymmetrisch) ===== -->
-  <section id="ueber-uns" class="scroll-mt-24 bg-paper-50">
-    <div class="container-wide grid gap-12 py-24 md:py-32 lg:grid-cols-[1fr_1fr] lg:gap-16">
-      <div class="max-w-xl">
-        <SectionHeading
-          title='Eine Website ist Vertrauenssache. <span class="accent-em">Persönlich</span> gemacht.'
-          lead="DT Webstudio ist kein anonymer Dienstleister, sondern ein Ansprechpartner aus der Region. Wir kennen die Betriebe und Vereine im Inntal – und bauen Seiten, die hier wirklich ankommen."
-        />
-        <a href={u("/#kontakt")} class="reveal mt-8 inline-flex" style="--reveal-delay: 120ms;">
-          <span class="btn btn-secondary">Projekt anfragen</span>
-        </a>
-      </div>
-
-      <div class="flex flex-col gap-px overflow-hidden rounded-[var(--radius-card)] border border-line bg-line">
-        {values.map((value, i) => (
-          <div class="reveal bg-paper-50 p-7" style={`--reveal-delay: ${i * 80}ms;`}>
-            <h3 class="text-xl text-ink-900">{value.title}</h3>
-            <p class="mt-2 text-[0.97rem] leading-relaxed text-ink-500">{value.text}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== FAQ ===== -->
-  <section id="faq" class="scroll-mt-24 bg-paper-100">
-    <div class="container-wide py-24 md:py-32">
-      <SectionHeading
-        title='Häufige <span class="accent-em">Fragen</span>.'
-        lead="Die Punkte, die uns am häufigsten gestellt werden – kurz und ehrlich beantwortet."
-      />
-      <div class="mx-auto mt-14 max-w-3xl divide-y divide-line overflow-hidden rounded-[var(--radius-card)] border border-line bg-paper-50">
-        {faq.map((item, i) => (
-          <details class="reveal group" name="faq" style={`--reveal-delay: ${i * 60}ms;`}>
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-6 text-lg font-display text-ink-900 [&::-webkit-details-marker]:hidden">
-              <span>{item.q}</span>
-              <span class="shrink-0 text-2xl leading-none text-accent transition-transform duration-300 group-open:rotate-45" aria-hidden="true">+</span>
-            </summary>
-            <p class="-mt-1 px-6 pb-6 leading-relaxed text-ink-500">{item.a}</p>
-          </details>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <script
-    type="application/ld+json"
-    set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: faq.map((item) => ({
-        "@type": "Question",
-        name: item.q,
-        acceptedAnswer: { "@type": "Answer", text: item.a },
-      })),
-    })}
-  />
-
-  <!-- ===== Kontakt (dunkler Abschluss) ===== -->
-  <ContactCTA />
 </Layout>
+
+<style>
+  .hero-split {
+    background: var(--color-paper-50);
+    padding-block: clamp(5rem, 12vh, 9rem);
+    overflow: hidden;
+  }
+  .hs-inner {
+    width: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: clamp(1.5rem, 4vw, 2.5rem);
+    display: grid;
+    gap: clamp(3rem, 6vw, 5rem);
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .hs-inner { grid-template-columns: 1fr 1fr; }
+  }
+
+  .hs-eyebrow {
+    display: block;
+    font-size: .78rem; font-weight: 600;
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 1.1rem;
+  }
+  .hs-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 500;
+    line-height: 1.06;
+    letter-spacing: -.025em;
+    color: var(--color-ink-900);
+    margin: 0;
+  }
+  .hs-sub {
+    margin-top: 1.25rem;
+    max-width: 34rem;
+    color: var(--color-ink-500);
+    font-size: clamp(.95rem, 1.8vw, 1.1rem);
+    line-height: 1.65;
+  }
+  .hs-cta-row {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+  }
+  .hs-reel {
+    display: flex;
+    justify-content: center;
+  }
+</style>

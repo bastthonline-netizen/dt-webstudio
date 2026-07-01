@@ -4,7 +4,6 @@
 // Wortmarke "DT Webstudio". Beim Scrollen zoomt man in den Screen hinein und landet
 // in der echten Live-Website (Hero), während die dunkle Bühne ins Helle aufklart.
 import { u } from "../lib/url";
-import { primaryCta } from "../data/site";
 ---
 
 <section class="lz" aria-label="Intro">
@@ -35,22 +34,12 @@ import { primaryCta } from "../data/site";
             <span class="lz-boot"><i></i></span>
           </div>
 
-          <!-- Echte Website (beim Zoom enthüllt) -->
-          <div class="lz-site">
-            <div class="lz-hero">
-              <span class="lz-hero-eyebrow">Webstudio · Inntal &amp; Rosenheim</span>
-              <h1 class="lz-hero-title">
-                Websites, die deinen <span class="accent-em">Betrieb</span> widerspiegeln.
-              </h1>
-              <p class="lz-hero-sub">
-                Für Handwerk und kleine Betriebe in der Region – genau nach euren
-                Wünschen, zu Preisen, die man sich leisten kann.
-              </p>
-              <div class="lz-hero-cta">
-                <a href={u(primaryCta.href)} class="btn btn-primary">{primaryCta.label}</a>
-                <a href={u("/#leistungen")} class="btn btn-secondary">Leistungen ansehen</a>
-              </div>
-            </div>
+          <!-- Screen: paper background – nahtlose Bridge zum echten Hero -->
+          <div class="lz-site" aria-hidden="true">
+            <span class="lz-ws-brand-center">
+              <span class="lz-ws-bc-dt">DT</span>
+              <span class="lz-ws-bc-web">Webstudio</span>
+            </span>
           </div>
 
           <div class="lz-glare" aria-hidden="true"></div>
@@ -167,30 +156,19 @@ import { primaryCta } from "../data/site";
     background: linear-gradient(90deg, var(--color-accent), #e9764f);
   }
 
-  /* Echte Website im Screen */
+  /* Screen: paper background — nahtlose Bridge zum echten Hero via Crossfade */
   .lz-site {
     position: absolute; inset: 0; z-index: 1; opacity: 0;
-    display: grid; place-items: center;
     background: var(--color-paper-50);
-    container-type: inline-size;
+    display: flex; align-items: center; justify-content: center;
   }
-  .lz-hero { width: min(82%, 760px); padding: 0 1rem; }
-  .lz-hero-eyebrow {
-    display: block; font-size: clamp(0.5rem, 1.25cqw, 0.8rem); font-weight: 600;
-    letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-accent);
-    margin-bottom: 1.1em;
+  .lz-ws-brand-center {
+    display: inline-flex; align-items: baseline; gap: 0.2em;
+    font-family: var(--font-display); letter-spacing: -0.02em; line-height: 1;
+    font-size: clamp(1.4rem, 3.5vw, 2.8rem);
   }
-  .lz-hero-title {
-    font-family: var(--font-display); font-weight: 500; color: var(--color-ink-900);
-    font-size: clamp(1.2rem, 4.2cqw, 2.6rem); line-height: 1.06; letter-spacing: -0.025em;
-    margin: 0;
-  }
-  .lz-hero-sub {
-    margin: 1.1em 0 0; max-width: 30rem; color: var(--color-ink-500);
-    font-size: clamp(0.65rem, 1.5cqw, 0.95rem); line-height: 1.6;
-  }
-  .lz-hero-cta { margin-top: 1.6em; display: flex; flex-wrap: wrap; gap: 0.7rem; }
-  .lz-hero-cta .btn { font-size: clamp(0.7rem, 1.5cqw, 0.95rem); }
+  .lz-ws-bc-dt { font-weight: 500; color: var(--color-ink-900); }
+  .lz-ws-bc-web { font-style: italic; font-weight: 400; color: var(--color-accent); }
 
   /* Glas-Reflex */
   .lz-glare {
@@ -246,29 +224,32 @@ import { primaryCta } from "../data/site";
   const screenEl = document.querySelector<HTMLElement>(".lz-screen");
 
   if (root && device && screenEl && !reduce) {
-    // --- 1) Auto-Boot beim Laden ---------------------------------------
-    const intro = gsap.timeline({ delay: 0.35 });
+    // Hero-Split starts hidden; revealed via crossfade when zoom completes
+    gsap.set(".hero-split", { opacity: 0 });
+
+    // --- 1) Auto-Boot beim Laden (straff: ~1.2s statt ~2.5s) -------------
+    const intro = gsap.timeline({ delay: 0.15 });
     intro
       .fromTo(".lz-device-in",
         { opacity: 0, y: 26, scale: 0.985 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.9, ease: "power3.out" })
+        { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "power3.out" })
       // Bildschirm "geht an": Backlight blitzt auf
-      .fromTo(".lz-glow", { opacity: 0 }, { opacity: 1, duration: 0.18, ease: "power2.out" }, 0.45)
-      .to(".lz-glow", { opacity: 0.35, duration: 0.5, ease: "power2.inOut" }, ">")
+      .fromTo(".lz-glow", { opacity: 0 }, { opacity: 1, duration: 0.14, ease: "power2.out" }, 0.25)
+      .to(".lz-glow", { opacity: 0.35, duration: 0.3, ease: "power2.inOut" }, ">")
       // Boot-Balken läuft durch
-      .set(".lz-boot", { opacity: 1 }, 0.6)
-      .fromTo(".lz-boot i", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power1.inOut" }, 0.62)
-      .to(".lz-boot", { opacity: 0, duration: 0.3 }, ">-0.05")
+      .set(".lz-boot", { opacity: 1 }, 0.35)
+      .fromTo(".lz-boot i", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power1.inOut" }, 0.37)
+      .to(".lz-boot", { opacity: 0, duration: 0.2 }, ">-0.05")
       // Wortmarke erscheint
       .fromTo(".lz-logo",
         { opacity: 0, y: 12, filter: "blur(6px)" },
-        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "power3.out" }, "<")
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, "<")
       // Akzentlinie + Subline
-      .fromTo(".lz-rule", { opacity: 0, scaleX: 0.4 }, { opacity: 1, scaleX: 1, duration: 0.5, ease: "power2.out" }, "<0.15")
-      .fromTo(".lz-splash-sub", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, "<0.05")
-      .fromTo(".lz-glare", { opacity: 0 }, { opacity: 1, duration: 0.6 }, "<")
-      .fromTo(".lz-stagelight", { opacity: 0 }, { opacity: 1, duration: 0.9, ease: "sine.out" }, 0.5)
-      .to(".lz-hint", { opacity: 1, duration: 0.6 }, ">-0.2");
+      .fromTo(".lz-rule", { opacity: 0, scaleX: 0.4 }, { opacity: 1, scaleX: 1, duration: 0.35, ease: "power2.out" }, "<0.1")
+      .fromTo(".lz-splash-sub", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, "<0.05")
+      .fromTo(".lz-glare", { opacity: 0 }, { opacity: 1, duration: 0.4 }, "<")
+      .fromTo(".lz-stagelight", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.out" }, 0.3)
+      .to(".lz-hint", { opacity: 1, duration: 0.4 }, ">-0.15");
 
     // dezenter Puls am Scroll-Hinweis
     gsap.to(".lz-hint-line", {
@@ -300,7 +281,7 @@ import { primaryCta } from "../data/site";
       scrollTrigger: {
         trigger: root,
         start: "top top",
-        end: "+=200%",
+        end: "+=100%",
         pin: true,
         anticipatePin: 1,
         scrub: 1,
@@ -332,5 +313,9 @@ import { primaryCta } from "../data/site";
       .to(".lz-screen", { borderRadius: 0, duration: 0.2 }, 0.66)
       // Rahmen löst sich auf, während man eintaucht – nur die Website bleibt
       .to(".lz-photo", { opacity: 0, duration: 0.22, ease: "power1.in" }, 0.6);
+
+    // Crossfade: scrub-getrieben → funktioniert bei beliebiger Scroll-Geschwindigkeit
+    tl.to(".lz-pin", { opacity: 0, duration: 0.12, ease: "none" }, 0.88)
+      .to(".hero-split", { opacity: 1, duration: 0.12, ease: "none" }, 0.90);
   }
 </script>

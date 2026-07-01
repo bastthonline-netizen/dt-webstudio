@@ -1,0 +1,59 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import { values, mission, primaryCta } from "../data/site";
+import { u } from "../lib/url";
+---
+
+<Layout
+  title="Über uns"
+  description="DT Webstudio – Bastian Thome und Christian Dachauer bauen Websites für Betriebe und Vereine im Inntal und Raum Rosenheim."
+>
+  <!-- Page header -->
+  <section class="bg-paper-50">
+    <div class="container-wide py-24 md:py-32">
+      <SectionHeading
+        eyebrow="Über uns"
+        title='Eine Website ist Vertrauenssache. <span class="accent-em">Persönlich</span> gemacht.'
+        lead="DT Webstudio ist kein anonymer Dienstleister, sondern ein Ansprechpartner aus der Region. Wir kennen die Betriebe und Vereine im Inntal – und bauen Seiten, die hier wirklich ankommen."
+      />
+    </div>
+  </section>
+
+  <!-- Mission -->
+  <section class="bg-paper-100">
+    <div class="container-wide grid gap-8 py-16 md:grid-cols-[0.5fr_1fr] md:gap-16 md:py-24">
+      <span class="eyebrow reveal">{mission.kicker}</span>
+      <p class="reveal font-display text-2xl leading-snug text-ink-900 sm:text-3xl lg:text-[2.1rem]" style="--reveal-delay: 80ms;">
+        {mission.text}
+      </p>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="bg-paper-50">
+    <div class="container-wide py-16 md:py-24">
+      <div class="grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-line bg-line sm:grid-cols-2">
+        {values.map((value, i) => (
+          <div class="reveal bg-paper-100 p-7 md:p-9" style={`--reveal-delay: ${(i % 2) * 80}ms;`}>
+            <h3 class="text-xl text-ink-900">{value.title}</h3>
+            <p class="mt-2 text-[0.97rem] leading-relaxed text-ink-500">{value.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-paper-100">
+    <div class="container-wide py-20 md:py-28 text-center">
+      <h2 class="font-display text-3xl text-ink-900 mb-4">
+        Sollen wir auch für <span class="accent-em">Sie</span> tätig werden?
+      </h2>
+      <p class="text-ink-500 text-lg mb-8 max-w-md mx-auto">
+        Melden Sie sich — wir freuen uns auf jedes Projekt, egal ob groß oder klein.
+      </p>
+      <a href={u(primaryCta.href)} class="btn btn-primary">{primaryCta.label}</a>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,77 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import ProcessStep from "../components/ProcessStep.astro";
+import Icon from "../components/Icon.astro";
+import { seoGeo, seoProcess, primaryCta } from "../data/site";
+import { u } from "../lib/url";
+---
+
+<Layout
+  title="SEO & GEO"
+  description="Damit man Sie findet – bei Google und in der KI-Suche. Technisches SEO, lokale Sichtbarkeit und GEO für Betriebe im Inntal und Raum Rosenheim."
+>
+  <!-- Page header -->
+  <section class="bg-paper-50">
+    <div class="container-wide py-24 md:py-32">
+      <SectionHeading
+        eyebrow="SEO & KI-Sichtbarkeit"
+        title='Damit man Sie findet — bei Google und in der <span class="accent-em">KI</span>.'
+        lead="Die schönste Website nützt wenig, wenn niemand sie findet. Wir sorgen dafür, dass Ihr Betrieb dort auftaucht, wo Ihre Kunden suchen: bei Google und zunehmend in ChatGPT, Gemini & Co."
+      />
+    </div>
+  </section>
+
+  <!-- SEO & GEO explainer -->
+  <section class="bg-paper-100">
+    <div class="container-wide py-16 md:py-24">
+      <div class="grid gap-5 md:grid-cols-2">
+        {seoGeo.map((block, i) => (
+          <article
+            class="card reveal flex flex-col p-7 md:p-9"
+            style={`--reveal-delay: ${i * 90}ms;`}
+          >
+            <span class="flex h-12 w-12 items-center justify-center rounded-[12px] bg-accent-soft text-accent">
+              <Icon name={block.icon} class="h-6 w-6" />
+            </span>
+            <h3 class="mt-5 text-xl text-ink-900">{block.title}</h3>
+            <p class="mt-2.5 text-[0.97rem] leading-relaxed text-ink-500">{block.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Ablauf -->
+  <section class="bg-paper-50">
+    <div class="container-wide grid gap-12 py-16 md:py-24 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <SectionHeading
+          eyebrow="So gehen wir vor"
+          title='In vier Schritten <span class="accent-em">sichtbar</span>.'
+        />
+        <p class="reveal mt-8 max-w-sm rounded-[var(--radius-card)] border border-line bg-paper-100 p-6 text-[0.97rem] leading-relaxed text-ink-500">
+          Ehrlich gesagt: SEO ist kein Schalter. Erste Effekte zeigen sich in Wochen, spürbar mehr Anfragen über einige Monate. Dafür wirkt es dauerhaft — anders als bezahlte Anzeigen.
+        </p>
+      </div>
+      <ol class="lg:pt-2">
+        {seoProcess.map((step, i) => (
+          <ProcessStep step={step} index={i} last={i === seoProcess.length - 1} />
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-paper-100">
+    <div class="container-wide py-20 md:py-28 text-center">
+      <h2 class="font-display text-3xl text-ink-900 mb-4">
+        Sollen Kunden Sie leichter <span class="accent-em">finden</span>?
+      </h2>
+      <p class="text-ink-500 text-lg mb-8 max-w-md mx-auto">
+        Wir schauen uns Ihre aktuelle Sichtbarkeit an und sagen Ihnen ehrlich, was sich lohnt — kostenlos und unverbindlich.
+      </p>
+      <a href={u(primaryCta.href)} class="btn btn-primary">{primaryCta.label}</a>
+    </div>
+  </section>
+</Layout>

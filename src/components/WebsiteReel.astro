@@ -1,0 +1,298 @@
+---
+// WebsiteReel — clickable browser-chrome carousel with 5 photorealistic
+// website screenshots (Higgsfield-generiert). Used in the hero split-layout.
+const sites = [
+  { url: "baeckerei-lang.de",           label: "Bäckerei",     img: "/img/reel/baeckerei.jpg" },
+  { url: "elektro-mayr-inntal.de",      label: "Elektriker",   img: "/img/reel/elektriker.jpg" },
+  { url: "atelier-form-muenchen.de",    label: "Art Studio",   img: "/img/reel/atelier.jpg" },
+  { url: "almstueberl-kiefersfelden.de", label: "Gasthof",     img: "/img/reel/gasthof.jpg" },
+  { url: "studio-haar-rosenheim.de",    label: "Friseursalon", img: "/img/reel/friseur.jpg" },
+];
+---
+
+<div class="wr" id="wr">
+
+  <!-- The browser chrome wrapper (gets 3D-tilted on hover) -->
+  <div class="wr-browser" id="wrBrowser">
+
+    <!-- Chrome bar -->
+    <div class="wr-chrome">
+      <div class="wr-chrome-l">
+        <span class="wr-c wr-cr" aria-hidden="true"></span>
+        <span class="wr-c wr-cy" aria-hidden="true"></span>
+        <span class="wr-c wr-cg" aria-hidden="true"></span>
+      </div>
+      <div class="wr-addr">
+        <svg aria-hidden="true" width="9" height="9" viewBox="0 0 16 16" fill="currentColor" style="opacity:.45">
+          <path d="M11 6V5a3 3 0 1 0-6 0v1H3v8h10V6h-2ZM6 5a2 2 0 1 1 4 0v1H6V5Z"/>
+        </svg>
+        <span class="wr-url" id="wrUrl">baeckerei-lang.de</span>
+      </div>
+      <div class="wr-chrome-r" aria-hidden="true">
+        <span class="wr-newt">+</span>
+      </div>
+    </div>
+
+    <!-- Viewport: stacked sites, one visible at a time -->
+    <div class="wr-vp" id="wrVp">
+      {sites.map((s, i) => (
+        <article class={`ws${i === 0 ? " ws--on" : ""}`} data-url={s.url} data-label={s.label}>
+          <img
+            class="ws-shot"
+            src={s.img}
+            alt={`Website-Beispiel: ${s.label}`}
+            loading={i === 0 ? "eager" : "lazy"}
+            decoding="async"
+          />
+        </article>
+      ))}
+    </div><!-- /wr-vp -->
+  </div><!-- /wr-browser -->
+
+  <!-- Dots + label -->
+  <div class="wr-foot">
+    <div class="wr-dots" role="tablist" aria-label="Website-Beispiele wechseln">
+      {sites.map((s, i) => (
+        <button
+          class={`wr-dot${i === 0 ? " wr-dot--on" : ""}`}
+          role="tab"
+          aria-selected={i === 0 ? "true" : "false"}
+          data-idx={i}
+          aria-label={s.label}
+        ></button>
+      ))}
+    </div>
+    <span class="wr-lbl" id="wrLbl">Bäckerei</span>
+  </div>
+
+</div>
+
+<style>
+/* ── Outer wrapper ───────────────────────────────── */
+.wr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  width: 100%;
+  max-width: 580px;
+  /* subtle float */
+  animation: wr-float 7s ease-in-out infinite;
+}
+@keyframes wr-float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-14px); }
+}
+/* pause float while JS applies tilt */
+.wr.wr--tilting { animation-play-state: paused; }
+
+/* ── Browser chrome shell ──────────────────────── */
+.wr-browser {
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.18),
+    0 24px 64px -16px rgba(0,0,0,.45),
+    0 6px 20px -4px rgba(0,0,0,.25);
+  transition: transform .18s cubic-bezier(.16,1,.3,1), box-shadow .18s ease;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+/* ── Chrome bar ─────────────────────────────────── */
+.wr-chrome {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: 0 .75rem;
+  height: 38px;
+  background: #2a2a2e;
+  user-select: none;
+}
+.wr-chrome-l { display: flex; gap: .35rem; }
+.wr-c {
+  width: 11px; height: 11px; border-radius: 50%;
+  display: inline-block;
+}
+.wr-cr { background: #ff5f57; }
+.wr-cy { background: #febc2e; }
+.wr-cg { background: #28c840; }
+
+.wr-addr {
+  flex: 1; display: flex; align-items: center; gap: .35rem;
+  padding: .22rem .7rem;
+  background: rgba(255,255,255,.07);
+  border-radius: 6px;
+  min-width: 0;
+}
+.wr-url {
+  font-size: .7rem; color: rgba(255,255,255,.55);
+  font-family: ui-monospace, monospace;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: color .4s ease;
+}
+.wr-chrome-r { color: rgba(255,255,255,.35); font-size: .95rem; padding-left: .3rem; }
+.wr-newt { line-height: 1; }
+
+/* ── Viewport ───────────────────────────────────── */
+.wr-vp {
+  position: relative;
+  aspect-ratio: 3 / 2;               /* matcht das 3:2-Format der Screenshots */
+  overflow: hidden;
+}
+
+/* ── Individual sites (full screenshots) ────────── */
+.ws {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transform: translateY(10px) scale(1.015);
+  transition: opacity .48s ease, transform .48s cubic-bezier(.16,1,.3,1);
+  pointer-events: none;
+}
+.ws--on {
+  opacity: 1; transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.ws--out {
+  opacity: 0; transform: translateY(-10px) scale(1.015);
+}
+.ws-shot {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: top center;
+  display: block;
+  user-select: none; -webkit-user-drag: none;
+}
+
+/* ── Dots navigation ──────────────────────────── */
+.wr-foot {
+  display: flex; align-items: center; gap: 1.2rem;
+}
+.wr-dots {
+  display: flex; gap: .5rem;
+}
+.wr-dot {
+  /* Fixed layout width for all dots — active state expands visually via scaleX,
+     not via width, to avoid layout thrash and keep neighbours stable. */
+  width: 22px; height: 7px; border-radius: 99px;
+  background: rgba(24,25,27,.18);
+  border: none; padding: 0; cursor: pointer;
+  transform: scaleX(0.32);
+  transform-origin: center;
+  transition: background .3s ease, transform .3s cubic-bezier(.16,1,.3,1);
+}
+.wr-dot--on {
+  background: var(--color-accent);
+  transform: scaleX(1);
+}
+.wr-dot:hover:not(.wr-dot--on) {
+  background: rgba(24,25,27,.35);
+  transform: scaleX(0.5);
+}
+.wr-lbl {
+  font-size: .8rem; color: var(--color-ink-500); letter-spacing: .02em;
+}
+
+/* ── Accessibility: reduced motion ───────────── */
+@media (prefers-reduced-motion: reduce) {
+  .wr { animation: none; }
+  .ws { transition: none; }
+}
+</style>
+
+<script>
+  const wr      = document.getElementById("wr")!;
+  const browser = document.getElementById("wrBrowser")!;
+  const vp      = document.getElementById("wrVp")!;
+  const urlEl   = document.getElementById("wrUrl")!;
+  const lblEl   = document.getElementById("wrLbl")!;
+  const sites   = Array.from(vp.querySelectorAll<HTMLElement>(".ws"));
+  const dots    = Array.from(document.querySelectorAll<HTMLButtonElement>(".wr-dot"));
+
+  let current  = 0;
+  let timer: ReturnType<typeof setInterval>;
+  const DELAY  = 5000;
+
+  function goTo(idx: number) {
+    if (idx === current) return;
+    const old = sites[current];
+    old.classList.remove("ws--on");
+    old.classList.add("ws--out");
+    setTimeout(() => old.classList.remove("ws--out"), 500);
+
+    current = idx;
+    const next = sites[current];
+    next.classList.add("ws--on");
+
+    dots.forEach((d, i) => {
+      d.classList.toggle("wr-dot--on", i === current);
+      d.setAttribute("aria-selected", String(i === current));
+    });
+
+    urlEl.textContent = next.dataset.url ?? "";
+    lblEl.textContent = next.dataset.label ?? "";
+  }
+
+  function advance() {
+    goTo((current + 1) % sites.length);
+  }
+
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(advance, DELAY);
+  }
+  startTimer();
+
+  // Click on browser → advance
+  browser.addEventListener("click", () => {
+    advance();
+    startTimer();
+  });
+
+  // Dot navigation
+  dots.forEach((dot) => {
+    dot.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const idx = Number(dot.dataset.idx ?? 0);
+      goTo(idx);
+      startTimer();
+    });
+  });
+
+  // 3D tilt on hover
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduce) {
+    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+    let rx = 0, ry = 0, targetRx = 0, targetRy = 0;
+    let rafId: number;
+    let hovering = false;
+
+    function animateTilt() {
+      if (!hovering && Math.abs(rx) < .01 && Math.abs(ry) < .01) return;
+      rx = lerp(rx, targetRx, hovering ? .12 : .08);
+      ry = lerp(ry, targetRy, hovering ? .12 : .08);
+      browser.style.transform = `perspective(1100px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      rafId = requestAnimationFrame(animateTilt);
+    }
+
+    browser.addEventListener("mousemove", (e) => {
+      const r = browser.getBoundingClientRect();
+      const nx = (e.clientX - r.left - r.width  / 2) / (r.width  / 2);
+      const ny = (e.clientY - r.top  - r.height / 2) / (r.height / 2);
+      targetRy =  nx * 9;
+      targetRx = -ny * 6;
+    });
+    browser.addEventListener("mouseenter", () => {
+      hovering = true;
+      wr.classList.add("wr--tilting");
+      cancelAnimationFrame(rafId);
+      animateTilt();
+    });
+    browser.addEventListener("mouseleave", () => {
+      hovering = false;
+      targetRx = 0; targetRy = 0;
+      wr.classList.remove("wr--tilting");
+      animateTilt();
+    });
+  }
+</script>

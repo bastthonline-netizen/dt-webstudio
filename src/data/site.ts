@@ -24,15 +24,17 @@ export const site = {
 };
 
 export const navigation = [
-  { label: "Leistungen", href: "/#leistungen" },
-  { label: "Preise", href: "/#preise" },
-  { label: "Ablauf", href: "/#ablauf" },
-  { label: "Über uns", href: "/#ueber-uns" },
-  { label: "Kontakt", href: "/#kontakt" },
+  { label: "Leistungen", href: "/leistungen" },
+  { label: "SEO & GEO", href: "/seo-geo" },
+  { label: "Referenz", href: "/starter" },
+  { label: "Preise", href: "/preise" },
+  { label: "Ablauf", href: "/ablauf" },
+  { label: "Über uns", href: "/ueber-uns" },
+  { label: "Kontakt", href: "/kontakt" },
 ];
 
 // Primärer CTA — überall mit GLEICHEM Label (kein Duplicate-Intent)
-export const primaryCta = { label: "Projekt anfragen", href: "/#kontakt" };
+export const primaryCta = { label: "Projekt anfragen", href: "/kontakt" };
 
 export type Service = {
   title: string;
@@ -97,6 +99,12 @@ export const process: Step[] = [
   },
 ];
 
+// Mission-Absatz für die Über-uns-Seite
+export const mission = {
+  kicker: "Warum wir das machen",
+  text: "Viele kleine Betriebe schrecken vor einer eigenen Website zurück – zu teuer, zu kompliziert, zu viel Fachchinesisch. Genau das wollen wir ändern. Wir nehmen Sie an die Hand, erklären jeden Schritt verständlich und bauen eine Seite, hinter der Sie stehen.",
+};
+
 export type Value = {
   title: string;
   text: string;
@@ -114,6 +122,53 @@ export const values: Value[] = [
   {
     title: "Bezahlbar für kleine Betriebe",
     text: "Auch Handwerk und kleine Unternehmen verdienen eine schöne, gepflegte Website. Faire Preise, klar vorher genannt.",
+  },
+  {
+    title: "Klar und verständlich",
+    text: "Kein Fachchinesisch. Wir erklären alles so, dass Sie mitreden können – Sie entscheiden, wir setzen um.",
+  },
+  {
+    title: "Verlässlich",
+    text: "Was wir zusagen, halten wir. Feste Preise, klare Termine, keine bösen Überraschungen.",
+  },
+];
+
+// SEO & GEO — Erklär-Blöcke und Ablauf
+export type SeoBlock = {
+  title: string;
+  text: string;
+  icon: "search" | "sparkles";
+};
+
+export const seoGeo: SeoBlock[] = [
+  {
+    title: "SEO – gefunden bei Google",
+    text: "Wir bauen Ihre Seite technisch sauber (schnelle Ladezeit, mobil, klarer Code) und mit Inhalten, die genau die Fragen Ihrer Kundschaft beantworten. Dazu Ihr Google-Unternehmensprofil und echte lokale Signale aus der Region.",
+    icon: "search",
+  },
+  {
+    title: "GEO – empfohlen von der KI",
+    text: "Immer mehr Menschen fragen ChatGPT statt Google. GEO (Generative Engine Optimization) sorgt dafür, dass Ihr Betrieb in diesen Antworten genannt wird – über klare Struktur, belegbare Fakten und eine sichtbare Marke.",
+    icon: "sparkles",
+  },
+];
+
+export const seoProcess: Step[] = [
+  {
+    title: "Analyse",
+    text: "Wir prüfen Technik, Suchbegriffe und Ihren Wettbewerb vor Ort.",
+  },
+  {
+    title: "Technik & Inhalte",
+    text: "Wir beheben technische Bremsen und bauen Inhalte, die ranken.",
+  },
+  {
+    title: "Regional & Autorität",
+    text: "Google-Profil, lokale Signale und echte Nennungen im Netz.",
+  },
+  {
+    title: "Dranbleiben",
+    text: "Wir beobachten, was wirkt, und optimieren nach. Kein Blindflug.",
   },
 ];
 

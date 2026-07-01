@@ -1,0 +1,49 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import { services, primaryCta } from "../data/site";
+import { u } from "../lib/url";
+---
+
+<Layout
+  title="Leistungen"
+  description="Webdesign, Entwicklung, SEO und Pflege für Betriebe und Vereine im Inntal und Raum Rosenheim."
+>
+  <!-- Page header -->
+  <section class="page-hero bg-paper-50">
+    <div class="container-wide py-24 md:py-32">
+      <SectionHeading
+        eyebrow="Leistungen"
+        title='Was wir für Sie <span class="accent-em">bauen</span>.'
+        lead="Vom ersten Entwurf bis zur fertigen Seite – alles aus einer Hand, ohne Agentur-Apparat dazwischen."
+      />
+    </div>
+  </section>
+
+  <!-- Services grid -->
+  <section class="bg-paper-100">
+    <div class="container-wide py-16 md:py-24">
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {services.map((service, i) => <ServiceCard service={service} index={i} />)}
+      </div>
+      <p class="reveal mt-8 text-[0.97rem] text-ink-500">
+        Mehr dazu, wie man Sie bei Google und in der KI findet:
+        <a href={u("/seo-geo")} class="text-accent underline-offset-4 hover:underline">SEO & GEO ansehen →</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-paper-50">
+    <div class="container-wide py-20 md:py-28 text-center">
+      <h2 class="font-display text-3xl text-ink-900 mb-4">
+        Klingt nach dem, was Sie <span class="accent-em">brauchen</span>?
+      </h2>
+      <p class="text-ink-500 text-lg mb-8 max-w-md mx-auto">
+        Wir schauen uns Ihr Vorhaben an und machen Ihnen ein konkretes Angebot — kostenlos und unverbindlich.
+      </p>
+      <a href={u(primaryCta.href)} class="btn btn-primary">{primaryCta.label}</a>
+    </div>
+  </section>
+</Layout>
