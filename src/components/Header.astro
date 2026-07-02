@@ -122,10 +122,26 @@ import { u } from "../lib/url";
 </script>
 
 <style is:global>
-  #site-header.is-scrolled {
+  /* Hintergrund + Blur liegen auf einem Pseudo-Element statt auf dem Header:
+     backdrop-filter auf dem Header selbst macht ihn zum Containing Block für
+     das fixed positionierte #mobile-menu — das Menü wäre dann nur so hoch wie
+     die Header-Leiste und die Links unerreichbar. */
+  #site-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
     background: rgba(248, 246, 241, 0.85);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  #site-header.is-scrolled::before {
+    opacity: 1;
+  }
+  #site-header.is-scrolled {
     border-bottom-color: var(--color-line);
   }
 </style>

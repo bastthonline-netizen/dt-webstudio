@@ -192,16 +192,16 @@ export type Package = {
 };
 
 export const pricing = {
-  note: "Alle Preise sind Richtwerte – der genaue Preis hängt von euren Wünschen ab.",
+  note: "Website-Angebote von Agenturen kosten schnell mehrere tausend Euro — das steht für kleine Betriebe oft in keinem Verhältnis. Wir arbeiten schlank und persönlich und können deshalb deutlich günstiger anbieten. Den genauen Preis nennen wir dir nach einem kurzen Gespräch — jedes Projekt ist anders.",
   packages: [
     {
       name: "One-Pager",
-      price: "750 €",
+      price: "Auf Anfrage",
       desc: "Eine übersichtliche Startseite mit allem Wichtigen – ideal, wenn ein klarer, schöner Auftritt reicht.",
     },
     {
       name: "Mehrseitige Website",
-      price: "850 – 900 €",
+      price: "Auf Anfrage",
       desc: "Mehrere Seiten (z. B. Leistungen, Über uns, Galerie, Kontakt) – für Betriebe, die mehr zeigen wollen.",
     },
   ] as Package[],

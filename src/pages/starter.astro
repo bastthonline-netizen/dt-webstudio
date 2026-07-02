@@ -576,15 +576,19 @@ const packages = [
       .fs-logo { flex: 1; font-size: 1.05rem; }
       .fs-navcta { font-size: .8rem; }
 
-      .fs-hero { padding: 0 1.25rem 4.5rem; gap: .8rem; }
+      /* Unten Luft lassen: iOS-Safari-Toolbar überdeckt sonst die Buttons
+         (100vh reicht hinter die eingeblendete Leiste) */
+      .fs-hero { padding: 0 1.25rem calc(6rem + env(safe-area-inset-bottom, 0px)); gap: .8rem; }
       .fs-h1 { font-size: clamp(2.6rem, 12vw, 3.2rem); }
       .fs-sub { font-size: .95rem; }
       .fs-btn { font-size: .85rem; padding: .75em 1.6em; }
 
-      /* Maler: Werkbild als kleine Karte oben rechts statt über dem Text */
-      .fs-werk { top: 5.5rem; bottom: auto; right: 1.25rem; width: 46vw; }
-      .fs-pinsel { width: clamp(120px, 36vw, 170px); bottom: 26vh; }
-      .fs-brush { bottom: 30vh; }
+      /* Maler mobil: Text oben unter der Leiste, Werkbild unten als Karte,
+         dazwischen läuft der Amber-Strich hinter dem fliegenden Pinsel */
+      .st-site--painter .fs-hero { top: 5rem; bottom: auto; padding: 0 1.25rem; }
+      .fs-werk { top: auto; bottom: calc(5rem + env(safe-area-inset-bottom, 0px)); right: 1.25rem; width: 60vw; }
+      .fs-brush { top: 42vh; bottom: auto; left: -12%; width: 124%; }
+      .fs-pinsel { width: clamp(120px, 38vw, 180px); top: 46vh; bottom: auto; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -596,6 +600,8 @@ const packages = [
     import { gsap } from "gsap";
     import { ScrollTrigger } from "gsap/ScrollTrigger";
     gsap.registerPlugin(ScrollTrigger);
+    // iOS/Android: URL-Leiste-Resize ignorieren -> kein Springen beim Pinnen
+    ScrollTrigger.config({ ignoreMobileResize: true });
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const fill = document.getElementById("stProgress");
@@ -674,15 +680,27 @@ const packages = [
         },
       });
 
+      // Text + Nav-Leiste der ausgehenden Site verschwinden zuerst — sonst
+      // überlagern sich beim Crossfade zwei Hero-Textblöcke am unteren Rand.
+      // Die Hintergründe crossfaden danach in einem kurzen Fenster statt
+      // über die ganze Phase (verhindert lange milchige Doppelbelichtung).
+      const ui = (i: number) => sites[i].querySelectorAll(".fs-hero, .fs-nav");
+
       // Phase 1: zoom through site 0 → arrive at site 1
-      tl.to(sites[0], { scale: 1.18, opacity: 0, ease: "power2.in", duration: 1 }, 0)
+      tl.to(ui(0), { opacity: 0, y: -24, ease: "power1.in", duration: 0.3 }, 0)
+        .to(sites[0], { scale: 1.18, ease: "power2.in", duration: 1 }, 0)
+        .to(sites[0], { opacity: 0, ease: "none", duration: 0.4 }, 0.6)
         .set(sites[1], { zIndex: 3 }, 0.55)
-        .to(sites[1], { scale: 1, opacity: 1, ease: "power2.out", duration: 1 }, 0.65);
+        .to(sites[1], { scale: 1, ease: "power2.out", duration: 1 }, 0.65)
+        .to(sites[1], { opacity: 1, ease: "none", duration: 0.4 }, 0.62);
 
       // Phase 2: zoom through site 1 → arrive at site 2
-      tl.to(sites[1], { scale: 1.18, opacity: 0, ease: "power2.in", duration: 1 }, 1.7)
+      tl.to(ui(1), { opacity: 0, y: -24, ease: "power1.in", duration: 0.3 }, 1.7)
+        .to(sites[1], { scale: 1.18, ease: "power2.in", duration: 1 }, 1.7)
+        .to(sites[1], { opacity: 0, ease: "none", duration: 0.4 }, 2.3)
         .set(sites[2], { zIndex: 3 }, 2.25)
-        .to(sites[2], { scale: 1, opacity: 1, ease: "power2.out", duration: 1 }, 2.35);
+        .to(sites[2], { scale: 1, ease: "power2.out", duration: 1 }, 2.35)
+        .to(sites[2], { opacity: 1, ease: "none", duration: 0.4 }, 2.32);
 
       // Maler: 3D-Pinsel zieht von links nach rechts über den Screen,
       // dahinter wachsen Amber-Strich + Headline auf (Site 1 sichtbar ~0.65–1.7)
