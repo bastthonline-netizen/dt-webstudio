@@ -88,6 +88,32 @@ const packages = [
     <a href={u(primaryCta.href)} class="btn btn-primary btn-sm">Projekt anfragen</a>
   </header>
 
+  <!-- Schwebender Menü-Button: bleibt sichtbar, auch wenn die Leiste im Demo-Pin ausblendet -->
+  <button
+    id="stMenuBtn"
+    class="st-menu-btn"
+    aria-label="Menü öffnen"
+    aria-expanded="false"
+    aria-controls="stMenu"
+  >
+    <span class="st-menu-bars" aria-hidden="true"></span>
+  </button>
+
+  <!-- Vollbild-Menü (liegt über allem, auch über den gepinnten Demo-Sites) -->
+  <div id="stMenu" class="st-menu" aria-hidden="true">
+    <nav class="st-menu-nav" aria-label="Seitenmenü">
+      {navigation.map(item => (
+        <a
+          href={u(item.href)}
+          class={`st-menu-link${item.href === "/starter" ? " st-menu-link--active" : ""}`}
+        >
+          {item.label}
+        </a>
+      ))}
+      <a href={u(primaryCta.href)} class="btn btn-primary st-menu-cta">{primaryCta.label}</a>
+    </nav>
+  </div>
+
   <!-- Scroll progress line -->
   <div class="st-progress" aria-hidden="true">
     <div class="st-progress-fill" id="stProgress"></div>
@@ -208,6 +234,62 @@ const packages = [
     .st-nav-link:hover { color: var(--color-ink-900); background: rgba(24,25,27,.05); }
     .st-nav-link--active { color: var(--color-ink-900); font-weight: 600; }
     @media (max-width: 900px) { .st-nav-links { display: none; } }
+
+    /* ── Schwebender Menü-Button + Vollbild-Menü ── */
+    .st-menu-btn {
+      position: fixed; top: .75rem; right: clamp(1rem, 3vw, 1.6rem); z-index: 10002;
+      width: 44px; height: 44px;
+      display: none; align-items: center; justify-content: center;
+      border: 1px solid rgba(24,25,27,.1); border-radius: 999px;
+      background: rgba(248,246,241,.92); backdrop-filter: blur(12px);
+      cursor: pointer; padding: 0;
+      box-shadow: 0 6px 24px -10px rgba(0,0,0,.3);
+    }
+    .st-menu-bars {
+      position: relative; width: 20px; height: 1.5px; background: #18191b;
+      transition: background-color .2s;
+    }
+    .st-menu-bars::before, .st-menu-bars::after {
+      content: ""; position: absolute; left: 0; width: 20px; height: 1.5px;
+      background: #18191b; transition: transform .3s ease;
+    }
+    .st-menu-bars::before { transform: translateY(-6px); }
+    .st-menu-bars::after  { transform: translateY(6px); }
+    .st-menu-btn[aria-expanded="true"] .st-menu-bars { background: transparent; }
+    .st-menu-btn[aria-expanded="true"] .st-menu-bars::before { transform: rotate(45deg); }
+    .st-menu-btn[aria-expanded="true"] .st-menu-bars::after  { transform: rotate(-45deg); }
+
+    /* Mobile: Button immer sichtbar (Leisten-Links sind ausgeblendet),
+       CTA der Leiste wandert ins Menü, damit nichts unter dem Button liegt */
+    @media (max-width: 900px) {
+      .st-menu-btn { display: flex; }
+      .st-nav > .btn { display: none; }
+    }
+    /* Desktop: Button erscheint nur, während die Leiste im Demo-Pin ausgeblendet ist */
+    @media (min-width: 901px) {
+      body.st-pinned .st-menu-btn { display: flex; }
+    }
+
+    .st-menu {
+      position: fixed; inset: 0; z-index: 10001;
+      background: rgba(13,12,15,.97); backdrop-filter: blur(10px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden; transform: translateY(-8px);
+      transition: opacity .3s ease, visibility .3s ease, transform .3s ease;
+    }
+    .st-menu--open { opacity: 1; visibility: visible; transform: none; }
+    .st-menu-nav {
+      display: flex; flex-direction: column;
+      width: min(85vw, 22rem);
+    }
+    .st-menu-link {
+      font-family: var(--font-display); font-size: 1.7rem; color: #f4f1ec;
+      padding: .8rem 0; border-bottom: 1px solid rgba(244,241,236,.12);
+      transition: color .18s;
+    }
+    .st-menu-link:hover { color: var(--color-accent); }
+    .st-menu-link--active { color: var(--color-accent); }
+    .st-menu-cta { margin-top: 1.6rem; align-self: flex-start; }
 
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
@@ -486,6 +568,25 @@ const packages = [
     .st-back { font-size: .9rem; color: var(--color-ink-400); transition: color .2s; }
     .st-back:hover { color: var(--color-ink-700); }
 
+    /* ── Mobile-Feinschliff für die Demo-Sites ── */
+    @media (max-width: 767px) {
+      /* rechts Platz lassen für den schwebenden Menü-Button */
+      .fs-nav { gap: 1rem; padding: 1rem 4.75rem 1rem 1.25rem; justify-content: space-between; }
+      .fs-links { display: none; }
+      .fs-logo { flex: 1; font-size: 1.05rem; }
+      .fs-navcta { font-size: .8rem; }
+
+      .fs-hero { padding: 0 1.25rem 4.5rem; gap: .8rem; }
+      .fs-h1 { font-size: clamp(2.6rem, 12vw, 3.2rem); }
+      .fs-sub { font-size: .95rem; }
+      .fs-btn { font-size: .85rem; padding: .75em 1.6em; }
+
+      /* Maler: Werkbild als kleine Karte oben rechts statt über dem Text */
+      .fs-werk { top: 5.5rem; bottom: auto; right: 1.25rem; width: 46vw; }
+      .fs-pinsel { width: clamp(120px, 36vw, 170px); bottom: 26vh; }
+      .fs-brush { bottom: 30vh; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .st-hint-line { animation: none !important; }
     }
@@ -498,6 +599,25 @@ const packages = [
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const fill = document.getElementById("stProgress");
+
+    // Vollbild-Menü — funktioniert jederzeit, auch während des Demo-Pins
+    const menuBtn = document.getElementById("stMenuBtn");
+    const menuEl = document.getElementById("stMenu");
+    const setMenu = (open: boolean) => {
+      if (!menuBtn || !menuEl) return;
+      menuBtn.setAttribute("aria-expanded", String(open));
+      menuBtn.setAttribute("aria-label", open ? "Menü schließen" : "Menü öffnen");
+      menuEl.classList.toggle("st-menu--open", open);
+      menuEl.setAttribute("aria-hidden", String(!open));
+      document.body.style.overflow = open ? "hidden" : "";
+    };
+    menuBtn?.addEventListener("click", () =>
+      setMenu(menuBtn.getAttribute("aria-expanded") !== "true"));
+    menuEl?.querySelectorAll("a").forEach((a) =>
+      a.addEventListener("click", () => setMenu(false)));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setMenu(false);
+    });
 
     // Scroll progress bar
     if (fill) {
@@ -518,16 +638,25 @@ const packages = [
       gsap.set(sites[1], { scale: 0.86, opacity: 0, zIndex: 2 });
       gsap.set(sites[2], { scale: 0.86, opacity: 0, zIndex: 1 });
 
-      // Hide the starter nav while the demo sites are pinned fullscreen
+      // Hide the starter nav while the demo sites are pinned fullscreen.
+      // body.st-pinned zeigt währenddessen den schwebenden Menü-Button (Desktop).
       const stNav = document.querySelector<HTMLElement>('.st-nav');
+      const hideNav = () => {
+        gsap.to(stNav, { opacity: 0, duration: 0.2, pointerEvents: 'none' });
+        document.body.classList.add('st-pinned');
+      };
+      const showNav = () => {
+        gsap.to(stNav, { opacity: 1, duration: 0.3, pointerEvents: 'auto' });
+        document.body.classList.remove('st-pinned');
+      };
       ScrollTrigger.create({
         trigger: "#stSitesPin",
         start: "top top",
         end: "+=300%",
-        onEnter:     () => gsap.to(stNav, { opacity: 0, duration: 0.2, pointerEvents: 'none' }),
-        onLeave:     () => gsap.to(stNav, { opacity: 1, duration: 0.3, pointerEvents: 'auto' }),
-        onEnterBack: () => gsap.to(stNav, { opacity: 0, duration: 0.2, pointerEvents: 'none' }),
-        onLeaveBack: () => gsap.to(stNav, { opacity: 1, duration: 0.3, pointerEvents: 'auto' }),
+        onEnter: hideNav,
+        onLeave: showNav,
+        onEnterBack: hideNav,
+        onLeaveBack: showNav,
       });
 
       // One pinned timeline drives the zoom-through all three sites
